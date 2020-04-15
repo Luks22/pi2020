@@ -1,0 +1,1 @@
+teste realizado com react-native junto com o expo para realizar requisições de uma api local

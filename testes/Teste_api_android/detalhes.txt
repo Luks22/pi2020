@@ -1,0 +1,2 @@
+teste de requisições de uma api local utilizando apenas o react-native, juntamente com testes de biblioteca para adquirir 
+as redes wifi perto do celular, seu endereço ip e sua altitude baseada no nivel do mar;
