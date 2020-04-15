@@ -1,0 +1,7 @@
+telas:
+
+-tela de login
+-tela de cadastro
+-tela de amigos
+-tela de editar dados 
+-tela de adicionar amigo
