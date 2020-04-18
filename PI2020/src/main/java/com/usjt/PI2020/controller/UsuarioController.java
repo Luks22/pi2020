@@ -31,8 +31,8 @@ public class UsuarioController {
 	}
 
 	@PostMapping("/cadastrar")
-	public void cadastrarUsuario(@Valid @RequestBody Map<String, String> parameters) {
-		usuarioService.insereUsuario(parameters);
+	public int cadastrarUsuario(@Valid @RequestBody Map<String, String> parameters) {
+		return usuarioService.insereUsuario(parameters);
 	}
 
 	@DeleteMapping("/deletarUsuario/{id}")
@@ -52,5 +52,10 @@ public class UsuarioController {
 		
 		usuarioService.atualizaLocalizacao(userId, params);
 		
+	}
+	
+	@GetMapping("/login")
+	public Usuario login(@Valid @RequestBody Map<String, String> params) {
+		return usuarioService.login(params);
 	}
 }

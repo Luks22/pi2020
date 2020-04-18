@@ -23,31 +23,44 @@ public class CelularService {
 
 		user.getCelular().setNumero(Long.parseLong(novoNumero.get("numeroNovo")));
 
+		try {
 		transaction.commit();
-
+		}catch(Exception e) {
+			System.out.println("Celular ja existente");
+		}
 	}
 
-	public Usuario insereAmigo(Long numeroABuscar) {
+	public void insereAmigo(Long userId, Map<String, String> params) {
 
 		EntityManager manager = JPAUtil.getEntityManager();
 		EntityTransaction transaction = manager.getTransaction();
 		transaction.begin();
 
-		long numero = numeroABuscar;
+		long numero = Long.parseLong(params.get("numeroAmigo"));
 		
-		Usuario usuario = new Usuario();
+		Usuario amigo = new Usuario();
+		Usuario usuario = manager.find(Usuario.class, userId);
 		
 		Query query = manager.createQuery("from Usuario");
 		List<Usuario> results = query.getResultList();
 		
 		for(Usuario user : results) {
 			if(user.getCelular().getNumero() == numero) {
-				usuario = user;
+				amigo = user;
 			}
 		}
 
+		usuario.getAmigos().add(amigo);
+		amigo.getAmigos().add(usuario);
+		amigo.getUsuarios().add(usuario);
+		usuario.getUsuarios().add(amigo);
 		
-		return usuario;
+		manager.persist(usuario);
+		manager.persist(amigo);
+		transaction.commit();
+		
+		System.out.println(usuario.getAmigos().get(0));
+		
 
 	}
 }

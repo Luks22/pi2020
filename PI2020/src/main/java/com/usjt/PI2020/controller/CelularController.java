@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,8 +28,8 @@ public class CelularController {
 		celularService.atualizaCelular(userId, params);
 	}
 	
-	@GetMapping("/insereAmigo/{numero}")
-	public Usuario insereAmigo(@PathVariable(value = "numero") Long numero) {
-		return celularService.insereAmigo(numero);
+	@PostMapping("/insereAmigo/{id}")
+	public void insereAmigo(@PathVariable(value = "id") Long id, @Valid @RequestBody Map<String, String> params) {
+		 celularService.insereAmigo(id, params);
 	}
 }

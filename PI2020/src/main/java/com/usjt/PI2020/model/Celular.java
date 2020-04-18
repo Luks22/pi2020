@@ -21,7 +21,7 @@ public class Celular {
 	@Column(nullable = false, length = 100)
 	private String ip;
 	
-	@Column(nullable = false)
+	@Column(nullable = false, unique = true)
 	private Long numero;
 	
 	@JsonIgnore
