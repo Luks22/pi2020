@@ -13,31 +13,23 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "celular")
-public class Celular implements Serializable{
+@Table(name = "login")
+public class Login implements Serializable{
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(nullable = false, length = 100)
-	private String ip;
+	@Column(nullable = false, length = 100, unique = true)
+	private String login;
 	
-	@Column(nullable = false, unique = true)
-	private Long numero;
+	@Column(nullable = false, length = 100)
+	private String senha;
 	
 	@JsonIgnore
-	@OneToOne(mappedBy = "celular")
+	@OneToOne(mappedBy = "login")
 	private Usuario usuario;
-
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
 
 	public Long getId() {
 		return id;
@@ -47,24 +39,34 @@ public class Celular implements Serializable{
 		this.id = id;
 	}
 
-	public String getIp() {
-		return ip;
+	public String getLogin() {
+		return login;
 	}
 
-	public void setIp(String ip) {
-		this.ip = ip;
+	public void setLogin(String login) {
+		this.login = login;
 	}
 
-	public Long getNumero() {
-		return numero;
+	public String getSenha() {
+		return senha;
 	}
 
-	public void setNumero(Long numero) {
-		this.numero = numero;
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 	@Override
 	public String toString() {
-		return "Celular [id=" + id + ", ip=" + ip + ", numero=" + numero + "]";
+		return "Login [id=" + id + ", login=" + login + ", senha=" + senha + "]";
 	}
+	
+	
 }

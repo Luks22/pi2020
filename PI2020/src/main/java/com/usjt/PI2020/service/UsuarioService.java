@@ -3,83 +3,96 @@ package com.usjt.PI2020.service;
 import java.util.List;
 import java.util.Map;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Query;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.usjt.PI2020.model.Celular;
+import com.usjt.PI2020.model.Login;
 import com.usjt.PI2020.model.Usuario;
-import com.usjt.PI2020.repository.JPAUtil;
+import com.usjt.PI2020.repository.LoginRepository;
+import com.usjt.PI2020.repository.UsuarioRepository;
 
+@Service
 public class UsuarioService {
 	
+	@Autowired
+	private UsuarioRepository usuarioRepo;
+	
+	@Autowired
+	private LoginRepository loginRepo;
+	
+	
 	public int insereUsuario(Map<String, String> parameters) {
-
-		EntityManager manager = JPAUtil.getEntityManager();
-		EntityTransaction transaction = manager.getTransaction();
-		transaction.begin();
 
 		Usuario user = new Usuario();
 		user.setLocalizacao(parameters.get("localizacao"));
 		user.setNome(parameters.get("nome"));
-		user.setLogin(parameters.get("login"));
-		user.setSenha(parameters.get("senha"));
+		
+		Login login = new Login();
+		
+		login.setLogin(parameters.get("login"));
+		login.setSenha(parameters.get("senha"));
 
 		Celular cel = new Celular();
 		cel.setIp(parameters.get("ip"));
 		cel.setNumero(Long.parseLong(parameters.get("numero")));
 
 		cel.setUsuario(user);
+		login.setUsuario(user);
+		
 		user.setCelular(cel);
+		user.setLogin(login);
 
 		try {
-			manager.persist(user);
+			usuarioRepo.save(user);
 		} catch (Exception e) {
-			manager.close();
+			System.out.println("Login existente");
 			return 0;
 		}
 
-		transaction.commit();
 		return 1;
 
 	}
 
-	public Usuario getUsuario(Long id) {
+	public Usuario getUsuario(Long idUser) {
 
-		EntityManager manager = JPAUtil.getEntityManager();
-		Usuario usuario = manager.find(Usuario.class, id);
-
-		return usuario;
-
+		Usuario user = usuarioRepo.getOne(idUser);
+		
+		return user;
 	}
 
-	public void deleteUsuario(Long id) {
-
-		EntityManager manager = JPAUtil.getEntityManager();
-		EntityTransaction transaction = manager.getTransaction();
-		transaction.begin();
-
-		Usuario usuario = manager.find(Usuario.class, id);
-
-		manager.remove(usuario);
-		transaction.commit();
-
+	public String deleteAmigo(Long id, Map<String, String> params) {
+		
+		Usuario user = usuarioRepo.getOne(id);
+		Usuario amigo = new Usuario();
+		
+		List<Usuario> amigos = user.getAmigos();
+		
+		for(Usuario u : amigos) {
+			if(u.getCelular().getNumero() == Long.parseLong(params.get("numeroAmigo"))) {
+				amigo = u;
+			}
+		}
+		
+		user.getAmigos().remove(amigo);
+		usuarioRepo.save(user);
+		
+		return "amigo deletado";
 	}
 
 	public void atualizaUsuario(Long id, Map<String, String> parameters) {
 
-		EntityManager manager = JPAUtil.getEntityManager();
-		EntityTransaction transaction = manager.getTransaction();
-		transaction.begin();
+		
 
-		Usuario user = manager.find(Usuario.class, id);
-
+		Usuario user = new Usuario();
+		user = usuarioRepo.getOne(id);
+		
 		user.setNome(parameters.get("nome"));
-		user.setLogin(parameters.get("login"));
-		user.setSenha(parameters.get("senha"));
+		user.getLogin().setLogin(parameters.get("login"));
+		user.getLogin().setSenha(parameters.get("senha"));
 
 		try {
-			transaction.commit();
+			usuarioRepo.save(user);
 		} catch (Exception e) {
 			System.out.println("login existente");
 		}
@@ -88,38 +101,39 @@ public class UsuarioService {
 
 	public void atualizaLocalizacao(Long id, Map<String, String> parameters) {
 
-		EntityManager manager = JPAUtil.getEntityManager();
-		EntityTransaction transaction = manager.getTransaction();
-		transaction.begin();
 
-		Usuario user = manager.find(Usuario.class, id);
+		Usuario user = usuarioRepo.getOne(id);
 		user.setLocalizacao(parameters.get("localizacao"));
 		user.setRoteadorBssid(parameters.get("roteador"));
-		transaction.commit();
+		usuarioRepo.save(user);
 
 	}
 
 	public Usuario login(Map<String, String> params) {
 
-		EntityManager manager = JPAUtil.getEntityManager();
-		EntityTransaction transaction = manager.getTransaction();
-		transaction.begin();
-
 		String login = params.get("login");
 		String senha = params.get("senha");
+		
 
 		Usuario usuario = new Usuario();
 
-		Query query = manager.createQuery("from Usuario");
-		List<Usuario> results = query.getResultList();
+		
+		List<Login> results = loginRepo.findAll();
 
-		for (Usuario user : results) {
-			if (user.getLogin().equals(login) && user.getSenha().equals(senha)) {
-				usuario = user;
+		for (Login log : results) {
+			if (log.getLogin().equals(login) && log.getSenha().equals(senha)) {
+				usuario = log.getUsuario();
 			}
 		}
 
 		return usuario;
 
+	}
+	
+	public List<Usuario> amigos(Long id){
+		
+		Usuario user = usuarioRepo.getOne(id);
+		
+		return user.getAmigos();
 	}
 }

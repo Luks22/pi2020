@@ -1,9 +1,9 @@
 package com.usjt.PI2020.repository;
 
-public class RoteadorRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
 
-	public String getWifiData(){
-		String s = "";
-		return s;
-	}
+import com.usjt.PI2020.model.Roteador;
+
+public interface RoteadorRepository extends JpaRepository<Roteador, Long>{
+
 }

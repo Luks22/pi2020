@@ -1,5 +1,6 @@
 package com.usjt.PI2020.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-
 import com.usjt.PI2020.model.Usuario;
 import com.usjt.PI2020.service.UsuarioService;
 
@@ -25,37 +25,42 @@ public class UsuarioController {
 	@Autowired
 	public UsuarioService usuarioService;
 
-	@GetMapping("/usuario/{id}")
+	@GetMapping("/usuario/{id}")//check
 	public Usuario getUsuario(@PathVariable(value = "id") Long usuarioId) {
 		return usuarioService.getUsuario(usuarioId);
 	}
 
-	@PostMapping("/cadastrar")
+	@PostMapping("/cadastrar")//check
 	public int cadastrarUsuario(@Valid @RequestBody Map<String, String> parameters) {
 		return usuarioService.insereUsuario(parameters);
 	}
 
-	@DeleteMapping("/deletarUsuario/{id}")
-	public void deleteUser(@PathVariable(value = "id") Long userId) {
-		usuarioService.deleteUsuario(userId);
+	@DeleteMapping("/deletarAmigo/{id}")
+	public String deleteUser(@PathVariable(value = "id") Long userId, @Valid @RequestBody Map<String, String> parameters) {
+		return usuarioService.deleteAmigo(userId, parameters);
 	}
 
-	@PutMapping("/atualizaUsuario/{id}")
+	@PutMapping("/atualizaUsuario/{id}")//check
 	public void updateUser(@PathVariable(value = "id") Long userId, @Valid @RequestBody Map<String, String> params) {
 		
 		usuarioService.atualizaUsuario(userId, params);
 		
 	}
 	
-	@PutMapping("/atualizaUsuario/{id}/Localizacao")
+	@PutMapping("/atualizaUsuario/{id}/Localizacao")//check
 	public void updateLocation(@PathVariable(value = "id") Long userId, @Valid @RequestBody Map<String, String> params) {
 		
 		usuarioService.atualizaLocalizacao(userId, params);
 		
 	}
 	
-	@GetMapping("/login")
+	@PostMapping("/login")//check
 	public Usuario login(@Valid @RequestBody Map<String, String> params) {
 		return usuarioService.login(params);
+	}
+	
+	@GetMapping("/amigos/{id}")//check
+	public List<Usuario> listaAmigos(@PathVariable(value = "id") Long userId) {
+		return usuarioService.amigos(userId);
 	}
 }

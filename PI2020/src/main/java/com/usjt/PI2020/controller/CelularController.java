@@ -29,7 +29,7 @@ public class CelularController {
 	}
 	
 	@PostMapping("/insereAmigo/{id}")
-	public void insereAmigo(@PathVariable(value = "id") Long id, @Valid @RequestBody Map<String, String> params) {
-		 celularService.insereAmigo(id, params);
+	public int insereAmigo(@PathVariable(value = "id") Long id, @Valid @RequestBody Map<String, String> params) {
+		 return celularService.insereAmigo(id, params);
 	}
 }

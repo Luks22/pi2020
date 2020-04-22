@@ -1,5 +1,6 @@
 package com.usjt.PI2020.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -14,9 +15,12 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "usuario")
-public class Usuario {
+public class Usuario implements Serializable{
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,11 +29,9 @@ public class Usuario {
 	@Column(nullable = false, length = 100)
 	private String nome;
 	
-	@Column(nullable = false, length = 100, unique = true)
-	private String login;
-	
-	@Column(nullable = false, length = 100)
-	private String senha;
+	@OneToOne(optional = false, cascade = CascadeType.ALL)
+	@JoinColumn(name = "id_login")
+	private Login login;
 	
 	@Column(nullable = true, length = 200)
 	private String localizacao;
@@ -41,14 +43,12 @@ public class Usuario {
 	@JoinColumn(name = "id_celular")
 	private Celular celular;
 	
-	@ManyToMany
+	@JsonIgnore
+	@ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(name = "lista_amigos",  
             joinColumns = { @JoinColumn(name = "id_usuario") }, 
             inverseJoinColumns = { @JoinColumn(name = "id_amigo") } )
     private List<Usuario> amigos;
-
-	@ManyToMany(mappedBy = "amigos")
-    private List<Usuario> usuarios;
 
 	public Long getId() {
 		return id;
@@ -66,20 +66,13 @@ public class Usuario {
 		this.nome = nome;
 	}
 
-	public String getLogin() {
+
+	public Login getLogin() {
 		return login;
 	}
 
-	public void setLogin(String login) {
+	public void setLogin(Login login) {
 		this.login = login;
-	}
-
-	public String getSenha() {
-		return senha;
-	}
-
-	public void setSenha(String senha) {
-		this.senha = senha;
 	}
 
 	public String getLocalizacao() {
@@ -106,13 +99,6 @@ public class Usuario {
 		this.celular = celular;
 	}
 
-	public List<Usuario> getUsuarios() {
-		return usuarios;
-	}
-
-	public void setUsuarios(List<Usuario> usuarios) {
-		this.usuarios = usuarios;
-	}
 
 	public List<Usuario> getAmigos() {
 		return amigos;
@@ -122,10 +108,11 @@ public class Usuario {
 		this.amigos = amigos;
 	}
 
+
 	@Override
 	public String toString() {
-		return "Usuario [id=" + id + ", nome=" + nome + ", login=" + login + ", senha=" + senha + ", localizacao="
-				+ localizacao + ", roteadorBssid=" + roteadorBssid + ", celular=" + celular + "]";
+		return "Usuario [id=" + id + ", nome=" + nome + ", login=" + login + ", localizacao=" + localizacao
+				+ ", roteadorBssid=" + roteadorBssid + ", celular=" + celular + ", amigos=" + amigos + "]";
 	}
 
 	@Override
