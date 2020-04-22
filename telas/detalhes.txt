@@ -1,7 +1,7 @@
 telas:
 
--tela de login
--tela de cadastro
--tela de amigos
--tela de editar dados 
--tela de adicionar amigo
+-tela de login //feito
+-tela de cadastro //feito
+-tela de amigos //feito
+-tela de editar dados  //feito
+-tela de adicionar amigo //feito
