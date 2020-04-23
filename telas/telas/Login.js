@@ -3,10 +3,6 @@ import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
 
 const Login = (props) => {
 
-    const logar = () => {
-
-    }
-
     return (
         <View style={styles.tela}>
             <Text style={styles.loginText}>Login</Text>
@@ -22,7 +18,7 @@ const Login = (props) => {
                 <View style={styles.buttonView}>
                     <Button
                         title="Logar"
-                        onPress={logar}
+                        onPress={props.onLogar}
                     />
                     <View style={styles.buttonCadastro}>
                         <Text style={{ textAlign: 'center', fontSize: 13 }}>Não possui uma conta?</Text>

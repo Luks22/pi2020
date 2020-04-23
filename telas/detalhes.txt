@@ -3,5 +3,9 @@ telas:
 -tela de login //feito
 -tela de cadastro //feito
 -tela de amigos //feito
--tela de editar dados  //feito
+-tela de editar dados  
 -tela de adicionar amigo //feito
+
+-função para capturar o nome de usuario e senha na tela login
+-transformar a lista de amigos em uma FlatList
+-estilizar as telas

@@ -11,7 +11,9 @@ const TelaPrincipal = (props) => {
                         <Button title='Editar Perfil' />
                     </View>
                     <View style = {{paddingLeft: 8}}>
-                        <Button title='Sair' />
+                        <Button title='Sair' 
+                        onPress = {props.onSair}
+                        />
                     </View>
                     <View style = {{paddingLeft: 8, marginTop: 35}}>
                         <Button 

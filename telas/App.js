@@ -12,7 +12,7 @@ export default function App() {
   const [clicouPrincipal, setClicouPrincipal] = useState(false)
 
   const sair = () => {
-    setClicouSair(true)
+    setClicouPrincipal(false)
   }
 
   const cadastro = () => {
@@ -20,18 +20,26 @@ export default function App() {
   }
 
   const addAmigo = () => {
+    setClicouPrincipal(false)
     setClicouAdd(true)
   }
 
   const telaPrincipal = () => {
+    setClicouAdd(false)
     setClicouPrincipal(true)
   }
 
+  const voltarLogin = () => {
+    setClicouCadastro(false);
+  }
+
   //let conteudo = <Login onCadastro={cadastro}/>
-  let conteudo = <TelaPrincipal onAddAmigo={addAmigo}/>
+  let conteudo = <Login onCadastro={cadastro}
+  onLogar = {telaPrincipal}
+  />
 
   if(clicouCadastro == true) {
-    conteudo = <Cadastro />
+    conteudo = <Cadastro onVoltarLogin = {voltarLogin}/>
   }
   else if(clicouSair == true) {
     conteudo = <Login onCadastro={cadastro}/>
@@ -40,7 +48,9 @@ export default function App() {
     conteudo = <AdicionarAmigo onVoltar={telaPrincipal}/>
   }
   else if(clicouPrincipal == true) {
-    conteudo = <TelaPrincipal onAddAmigo={addAmigo}/>
+    conteudo = <TelaPrincipal onAddAmigo={addAmigo}
+    onSair = {sair}
+    />
   }
 
   return (

@@ -111,6 +111,10 @@ const Cadastro = (props) => {
                         title="Cadastrar"
                         onPress={cadastrar}
                     />
+                    <Button
+                        title = "voltar"
+                        onPress = {props.onVoltarLogin}
+                    />
                 </View>
             </View>
         </View>
