@@ -109,10 +109,10 @@ public class UsuarioService {
 
 	}
 
-	public Usuario login(Map<String, String> params) {
+	public Usuario login(String username, String password) {
 
-		String login = params.get("login");
-		String senha = params.get("senha");
+		String login = username;
+		String senha = password;
 		
 
 		Usuario usuario = new Usuario();

@@ -54,9 +54,9 @@ public class UsuarioController {
 		
 	}
 	
-	@PostMapping("/login")//check
-	public Usuario login(@Valid @RequestBody Map<String, String> params) {
-		return usuarioService.login(params);
+	@GetMapping("/login/username={login}&password={senha}")//check
+	public Usuario login(@PathVariable(value = "login") String login, @PathVariable(value = "senha") String senha) {
+		return usuarioService.login(login, senha);
 	}
 	
 	@GetMapping("/amigos/{id}")//check
