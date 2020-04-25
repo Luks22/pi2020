@@ -1,5 +1,5 @@
 import React, { useState, useReducer } from 'react';
-import { StyleSheet, View, Alert } from 'react-native';
+import { StyleSheet, View, Alert, PermissionsAndroid } from 'react-native';
 import Login from './src/telas/Login'
 import Cadastro from './src/telas/Cadastro'
 import AdicionarAmigo from './src/telas/AdicionarAmigo'
@@ -7,7 +7,6 @@ import TelaPrincipal from './src/telas/TelaPrincipal'
 
 export default function App() {
   const [clicouCadastro, setClicouCadastro] = useState(false)
-  const [clicouSair, setClicouSair] = useState(false)
   const [clicouAdd, setClicouAdd] = useState(false)
   const [clicouPrincipal, setClicouPrincipal] = useState(false)
   const [usuario, setUsuario] = useState({})
@@ -31,10 +30,21 @@ export default function App() {
     setClicouPrincipal(true)
   }
 
-  const usuarioLogou = (usuarioLogado) => {
-    setUsuario(usuarioLogado);
-
-    setClicouPrincipal(true);
+    async function usuarioLogou(usuarioLogado) {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        {
+          title: 'Friend Tracker precisa de sua permissão para logar:',
+          message: 'Este aplicativo requer acesso a sua localização',
+        }
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        setUsuario(usuarioLogado);
+        setClicouPrincipal(true);
+        alert("Bem vindo!!!");
+      } else {
+        return;
+      }
   }
 
 

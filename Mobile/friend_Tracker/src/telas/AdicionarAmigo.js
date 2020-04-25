@@ -5,10 +5,10 @@ import Api from '../services/Api';
 const AdicionarAmigo = (props) => {
 
     const [usuario, setUsuario] = useState(props.usuarioLogado);
-    const [numero, setNumero] = useState({numeroAmigo: 0});
+    const [numero, setNumero] = useState({numeroAmigo: ''});
 
     const capturarNumero = (numero) => {
-        let amigo = parseInt(numero);
+        let amigo = numero;
         setNumero({numeroAmigo: amigo});
     }
 
@@ -47,7 +47,8 @@ const AdicionarAmigo = (props) => {
                     <Text>Digite o número do celular</Text>
                 </View>
                     <TextInput style={styles.addInput} 
-                    value = {numero}
+                    value = {numero.numeroAmigo}
+                    keyboardType = "number-pad"
                     onChangeText = {capturarNumero}
                     />
                     <View style={styles.buttonView}>

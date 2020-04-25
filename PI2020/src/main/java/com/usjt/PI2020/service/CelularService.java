@@ -26,9 +26,10 @@ public class CelularService {
 		}
 	}
 
-	public int insereAmigo(Long userId, Map<String, String> params) {
+	public int insereAmigo(long userId, Map<String, String> params) {
 
 		long numero = Long.parseLong(params.get("numeroAmigo"));
+		//long id = Long.parseLong(params.get("id"));
 		
 		Usuario amigo = new Usuario();
 		Usuario usuario = usuarioRepo.getOne(userId);
@@ -46,7 +47,10 @@ public class CelularService {
 			return 0;
 		}else if(usuario.getAmigos().contains(amigo)) {
 			System.out.println("Amigo já adicionado");
-			return 0;
+			return 2;
+		}else if(amigo.getNome() == null) {
+			System.out.println("Amigo não existe");
+			return 3;
 		}
 		usuario.getAmigos().add(amigo);
 		amigo.getAmigos().add(usuario);

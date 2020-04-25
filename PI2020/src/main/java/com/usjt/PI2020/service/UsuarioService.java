@@ -108,6 +108,8 @@ public class UsuarioService {
 		usuarioRepo.save(user);
 
 	}
+	
+	
 
 	public Usuario login(String username, String password) {
 

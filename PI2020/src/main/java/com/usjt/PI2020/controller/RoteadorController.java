@@ -2,12 +2,16 @@ package com.usjt.PI2020.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.usjt.PI2020.model.Roteador;
@@ -29,6 +33,11 @@ public class RoteadorController {
 	@GetMapping("/roteador/{id}")
 	public Roteador getRouteById(@PathVariable(value = "id") Long routerId){
 		return roteadorService.getRoteadorById(routerId);
+	}
+	
+	@PostMapping("/insereRoteador")
+	public int insereRoteador(@Valid @RequestBody Map<String, String> params) {
+		return roteadorService.insertWifiData(params);
 	}
 
 
