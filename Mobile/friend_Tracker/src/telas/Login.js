@@ -4,7 +4,7 @@ import Api from '../services/Api';
 
 const Login = (props) => {
     const [user, setUser] = useState({ login: '', senha: '' })
-    const [usuario, setUsuario] = useState({id: 0})
+
 
     const capturarLogin = (login) => {
         let nomeLogin = login;
@@ -30,6 +30,12 @@ const Login = (props) => {
         }
         
         const response = await Api.get(`/login/username=${user.login}&password=${user.senha}`);
+
+        if(response.data.id<=0){
+            alert("Usuario ou senha inválidos");
+            setUser({login: '', senha: '' });
+            return;
+        }
 
         props.onLogar(response.data);
 
@@ -59,7 +65,7 @@ const Login = (props) => {
                 <View style={styles.buttonView}>
                     <Button
                         title="Logar"
-                        onPress={Logar}
+                        onPress={() => {Logar()}}
                     />
                     <View style={styles.buttonCadastro}>
                         <Text style={{ textAlign: 'center', fontSize: 13 }}>Não possui uma conta?</Text>

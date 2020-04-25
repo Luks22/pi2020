@@ -13,6 +13,7 @@ export default function App() {
   const [usuario, setUsuario] = useState({})
 
   const sair = () => {
+    setUsuario({});
     setClicouPrincipal(false)
   }
 
@@ -37,7 +38,21 @@ export default function App() {
   }
 
 
+const amigoAdicionado = (numero) => {
+  Alert.alert(
+    'Amigo adicionado !!!',
+    `Você adicionou o número ${numero} com sucesso` ,
+    [
+      {
+        text: 'Ok',
+        style: 'default',
+        onPress: setClicouAdd(false)
+      }
+    ]
+  );
 
+  setClicouPrincipal(true);
+}
 
   const cadastroConcluido = () => {
     Alert.alert(
@@ -65,7 +80,10 @@ export default function App() {
     conteudo = <Cadastro onVoltarLogin={voltarLogin} onCadastroConcluido = {cadastroConcluido}/>
   }
   else if (clicouAdd == true) {
-    conteudo = <AdicionarAmigo onVoltar={telaPrincipal} usuarioLogado = {usuario}/>
+    conteudo = <AdicionarAmigo 
+    onVoltar={telaPrincipal} 
+    onAmigoAdicionado = {amigoAdicionado}
+    usuarioLogado = {usuario}/>
   }
   else if (clicouPrincipal == true) {
     conteudo = <TelaPrincipal onAddAmigo={addAmigo}

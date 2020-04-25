@@ -1,7 +1,43 @@
-import React from 'react'
-import { View, StyleSheet, Text, TextInput, Button } from 'react-native'
+import React, { useState } from 'react'
+import { View, StyleSheet, Text, TextInput, Button, Alert } from 'react-native'
+import Api from '../services/Api';
 
 const AdicionarAmigo = (props) => {
+
+    const [usuario, setUsuario] = useState(props.usuarioLogado);
+    const [numero, setNumero] = useState({numeroAmigo: 0});
+
+    const capturarNumero = (numero) => {
+        let amigo = parseInt(numero);
+        setNumero({numeroAmigo: amigo});
+    }
+
+    async function addAmigo(){
+        
+        if(numero.numeroAmigo <= 0){
+            alert("Insira um numero válido");
+            return;
+        }
+
+        const response = await Api.post(`/insereAmigo/${usuario.id}`, numero);
+        
+        if(response.data == 0) {
+            setNumero({numeroAmigo: 0});
+            alert("Você não pode adicionar você mesmo");
+            return;
+        }else if(response.data == 2){
+            setNumero({numeroAmigo: 0});
+            alert("Amigo já adicionado");
+            return;
+        }else if(response.data == 3){
+            setNumero({numeroAmigo: 0});
+            alert("Número não encontrado");
+            return;
+        }
+        
+        props.onAmigoAdicionado(numero.numeroAmigo);
+    }
+   
 
     return (
         <View style={styles.tela}>
@@ -10,10 +46,14 @@ const AdicionarAmigo = (props) => {
                 <View>
                     <Text>Digite o número do celular</Text>
                 </View>
-                    <TextInput style={styles.addInput} />
+                    <TextInput style={styles.addInput} 
+                    value = {numero}
+                    onChangeText = {capturarNumero}
+                    />
                     <View style={styles.buttonView}>
                         <Button
                             title="Adicionar"
+                            onPress = {addAmigo}
                         />
                         <Button
                             title="Voltar"
