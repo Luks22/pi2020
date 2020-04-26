@@ -9,10 +9,10 @@ const TelaPrincipal = (props) => {
     const [usuario, setUsuario] = useState(props.usuarioLogado)
     const [listaAmigos, setListaAmigos] = useState([]);
     const [roteadores, setRoteadores] = useState([]);
-    const [localizacao, setLocalizacao] = useState({ roteador: '', localizacao: '' })
-    const [teste, setTeste] = useState('');
+    const [localizacao, setLocalizacao] = useState({ roteador: '', localizacao: '' });
 
     async function carregarAmigos() {
+        
         const response = await Api.get(`/amigos/${usuario.id}`);
 
         setListaAmigos(response.data);
@@ -37,6 +37,23 @@ const TelaPrincipal = (props) => {
             const roteador = { bssid: bssid, ssid: ssid };
             const response = await Api.post("/insereRoteador", roteador)
         }
+    }
+
+
+    async function deletarAmigo(idAmigo){
+
+        const response = await Api.get(`/usuario/${idAmigo}`);
+        
+        let numero = response.data.celular.numero;
+        let numeroUsuario = usuario.celular.numero;
+
+        const deletarAmigo = await Api.delete(`/deletarAmigo/${usuario.id}/numeroAmigo=${numero.toString()}`);
+
+        const deletarUsuarioDoAmigo = await Api.delete(`/deletarAmigo/${idAmigo}/numeroAmigo=${numeroUsuario.toString()}`);
+
+        alert(deletarAmigo.data);
+         
+
     }
 
 
@@ -65,14 +82,10 @@ const TelaPrincipal = (props) => {
 
     useEffect(() => {
 
-        setTimeout(() => { carregarAmigos() }, 1000);
-        setTimeout(() => { roteadoresNasProximidades() }, 1000);
-        setTimeout(() => { localizacaoAtual() }, 1000);
+        setTimeout(() => { carregarAmigos() }, 500)
+        setTimeout(() => { roteadoresNasProximidades() }, 500);
+        setTimeout(() => { localizacaoAtual() }, 500);
     }, [usuario]);
-
-
-
-    console.log(listaAmigos);
 
     return (
         <View style={styles.tela}>
@@ -90,6 +103,10 @@ const TelaPrincipal = (props) => {
                         <Button
                             title='Add Amigos'
                             onPress={props.onAddAmigo}
+                        />
+                        <Button
+                            title='teste'
+                            onPress={() => {setTeste(2)}}
                         />
                     </View>
                 </View>

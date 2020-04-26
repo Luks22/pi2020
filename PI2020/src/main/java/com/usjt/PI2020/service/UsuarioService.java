@@ -61,7 +61,7 @@ public class UsuarioService {
 		return user;
 	}
 
-	public String deleteAmigo(Long id, Map<String, String> params) {
+	public String deleteAmigo(Long id, String numero) {
 		
 		Usuario user = usuarioRepo.getOne(id);
 		Usuario amigo = new Usuario();
@@ -69,7 +69,7 @@ public class UsuarioService {
 		List<Usuario> amigos = user.getAmigos();
 		
 		for(Usuario u : amigos) {
-			if(u.getCelular().getNumero() == Long.parseLong(params.get("numeroAmigo"))) {
+			if(u.getCelular().getNumero() == Long.parseLong(numero)) {
 				amigo = u;
 			}
 		}

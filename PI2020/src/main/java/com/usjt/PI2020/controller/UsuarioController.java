@@ -35,9 +35,9 @@ public class UsuarioController {
 		return usuarioService.insereUsuario(parameters);
 	}
 
-	@DeleteMapping("/deletarAmigo/{id}")
-	public String deleteUser(@PathVariable(value = "id") Long userId, @Valid @RequestBody Map<String, String> parameters) {
-		return usuarioService.deleteAmigo(userId, parameters);
+	@DeleteMapping("/deletarAmigo/{id}/numeroAmigo={numero}")
+	public String deleteUser(@PathVariable(value = "id") Long userId, @PathVariable(value = "numero") String numero) {
+		return usuarioService.deleteAmigo(userId, numero);
 	}
 
 	@PutMapping("/atualizaUsuario/{id}")//check
