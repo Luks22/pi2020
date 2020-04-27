@@ -1,35 +1,37 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, ScrollView } from 'react-native';
 
 const Login = (props) => {
 
     return (
-        <View style={styles.tela}>
-            <Text style={styles.loginText}>Login</Text>
-            <View style={styles.telaLogin}>
-                <View style={styles.fieldView}>
-                    <Text>Usuário</Text>
-                    <TextInput style={styles.fieldInput} />
-                </View>
-                <View style={styles.fieldView}>
-                    <Text>Senha</Text>
-                    <TextInput style={styles.fieldInput} />
-                </View>
-                <View style={styles.buttonView}>
-                    <Button
-                        title="Logar"
-                        onPress={props.onLogar}
-                    />
-                    <View style={styles.buttonCadastro}>
-                        <Text style={{ textAlign: 'center', fontSize: 13 }}>Não possui uma conta?</Text>
+        <ScrollView>
+            <View style={styles.tela}>
+                <Text style={styles.loginText}>Login</Text>
+                <View style={styles.telaLogin}>
+                    <View style={styles.fieldView}>
+                        <Text>Usuário</Text>
+                        <TextInput style={styles.fieldInput} />
+                    </View>
+                    <View style={styles.fieldView}>
+                        <Text>Senha</Text>
+                        <TextInput style={styles.fieldInput} />
+                    </View>
+                    <View style={styles.buttonView}>
                         <Button
-                            title="Cadastrar"
-                            onPress={props.onCadastro}
+                            title="Logar"
+                            onPress={props.onLogar}
                         />
+                        <View style={styles.buttonCadastro}>
+                            <Text style={{ textAlign: 'center', fontSize: 13 }}>Não possui uma conta?</Text>
+                            <Button
+                                title="Cadastrar"
+                                onPress={props.onCadastro}
+                            />
+                        </View>
                     </View>
                 </View>
             </View>
-        </View>
+        </ScrollView>
     );
 
 }
@@ -37,7 +39,7 @@ const Login = (props) => {
 const styles = StyleSheet.create({
     tela: {
         flex: 1,
-        padding: 10,
+        marginTop: 35,
         justifyContent: 'center',
     },
     telaLogin: {

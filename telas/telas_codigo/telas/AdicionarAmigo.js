@@ -1,15 +1,16 @@
 import React from 'react'
-import { View, StyleSheet, Text, TextInput, Button } from 'react-native'
+import { View, StyleSheet, Text, TextInput, Button, ScrollView } from 'react-native'
 
 const AdicionarAmigo = (props) => {
 
     return (
-        <View style={styles.tela}>
-            <Text style={styles.addText}>Adicionar Amigos</Text>
-            <View style={styles.addView}>
-                <View>
-                    <Text>Digite o número do celular</Text>
-                </View>
+        <ScrollView>
+            <View style={styles.tela}>
+                <Text style={styles.addText}>Adicionar Amigos</Text>
+                <View style={styles.addView}>
+                    <View>
+                        <Text>Digite o número do celular</Text>
+                    </View>
                     <TextInput style={styles.addInput} />
                     <View style={styles.buttonView}>
                         <Button
@@ -20,16 +21,18 @@ const AdicionarAmigo = (props) => {
                             onPress={props.onVoltar}
                         />
                     </View>
+                </View>
             </View>
-        </View>
+        </ScrollView>
     )
 }
 
 const styles = StyleSheet.create({
     tela: {
         flex: 1,
-        padding: 30, 
-        marginTop: 26
+        marginTop: 35,
+        justifyContent: 'center',
+        paddingHorizontal: 20
     },
     addText: {
         textAlign: 'center',
@@ -54,7 +57,7 @@ const styles = StyleSheet.create({
     },
     buttonView: {
         flexDirection: 'row',
-        width:'100%',
+        width: '100%',
         justifyContent: 'space-between',
         paddingHorizontal: 45,
         marginVertical: 30

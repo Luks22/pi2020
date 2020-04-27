@@ -20,7 +20,10 @@ const AmigoItem = (props) => {
                         <Button title='Localizar' />
                     </View>
                     <View>
-                        <Button title='Excluir' />
+                        <Button 
+                            title='Excluir' 
+                            color= '#fa6464'
+                        />
                     </View>
                 </View>
             </View>
@@ -32,7 +35,7 @@ const AmigoItem = (props) => {
 const styles = StyleSheet.create({
     amigoItem: {
         paddingHorizontal: 6,
-        paddingTop: 15
+        paddingTop: 12,
     },
     buttonView: {
         flexDirection: 'row',
@@ -42,6 +45,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         paddingLeft: 6,
         borderWidth: 1,
+        borderColor: '#00000066',
         marginTop: 8,
         marginHorizontal: 6
     }
