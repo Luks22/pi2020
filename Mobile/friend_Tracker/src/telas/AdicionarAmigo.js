@@ -1,76 +1,81 @@
 import React, { useState } from 'react'
-import { View, StyleSheet, Text, TextInput, Button, Alert } from 'react-native'
+import { View, StyleSheet, Text, TextInput, Button, Alert, ScrollView } from 'react-native'
 import Api from '../services/Api';
 
 const AdicionarAmigo = (props) => {
 
     const [usuario, setUsuario] = useState(props.usuarioLogado);
-    const [numero, setNumero] = useState({numeroAmigo: ''});
+    const [numero, setNumero] = useState({ numeroAmigo: '' });
 
     const capturarNumero = (numero) => {
         let amigo = numero;
-        setNumero({numeroAmigo: amigo});
+        setNumero({ numeroAmigo: amigo });
     }
 
-    async function addAmigo(){
-        
-        if(numero.numeroAmigo <= 0){
+    async function addAmigo() {
+
+        if (numero.numeroAmigo <= 0) {
             alert("Insira um numero válido");
             return;
         }
 
         const response = await Api.post(`/insereAmigo/${usuario.id}`, numero);
-        
-        if(response.data == 0) {
-            setNumero({numeroAmigo: 0});
+
+        if (response.data == 0) {
+            setNumero({ numeroAmigo: 0 });
             alert("Você não pode adicionar você mesmo");
             return;
-        }else if(response.data == 2){
-            setNumero({numeroAmigo: 0});
+        } else if (response.data == 2) {
+            setNumero({ numeroAmigo: 0 });
             alert("Amigo já adicionado");
             return;
-        }else if(response.data == 3){
-            setNumero({numeroAmigo: 0});
+        } else if (response.data == 3) {
+            setNumero({ numeroAmigo: 0 });
             alert("Número não encontrado");
             return;
         }
-        
+
         props.onAmigoAdicionado(numero.numeroAmigo);
     }
-   
+
 
     return (
-        <View style={styles.tela}>
-            <Text style={styles.addText}>Adicionar Amigos</Text>
-            <View style={styles.addView}>
-                <View>
-                    <Text>Digite o número do celular</Text>
-                </View>
-                    <TextInput style={styles.addInput} 
-                    value = {numero.numeroAmigo}
-                    keyboardType = "number-pad"
-                    onChangeText = {capturarNumero}
+        <ScrollView>
+            <View style={styles.tela}>
+                <Text style={styles.addText}>Adicionar Amigos</Text>
+                <View style={styles.addView}>
+                    <View>
+                        <Text>Digite o número do celular</Text>
+                    </View>
+                    <TextInput style={styles.addInput}
+                        value={numero.numeroAmigo}
+                        keyboardType="number-pad"
+                        onChangeText={capturarNumero}
                     />
                     <View style={styles.buttonView}>
                         <Button
                             title="Adicionar"
-                            onPress = {addAmigo}
+                            onPress={addAmigo}
                         />
                         <Button
                             title="Voltar"
                             onPress={props.onVoltar}
                         />
                     </View>
+                </View>
             </View>
-        </View>
+
+        </ScrollView>
+
     )
 }
 
 const styles = StyleSheet.create({
     tela: {
         flex: 1,
-        padding: 30, 
-        marginTop: 26
+        marginTop: 35,
+        justifyContent: 'center',
+        paddingHorizontal: 20
     },
     addText: {
         textAlign: 'center',
@@ -95,7 +100,7 @@ const styles = StyleSheet.create({
     },
     buttonView: {
         flexDirection: 'row',
-        width:'100%',
+        width: '100%',
         justifyContent: 'space-between',
         paddingHorizontal: 45,
         marginVertical: 30

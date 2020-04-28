@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
-import { StyleSheet, Text, View, TextInput, Button, Keyboard, ScrollView } from 'react-native'
-import Api from '../services/Api';
-import NetInfo from "@react-native-community/netinfo";
+import { View, Text, TextInput, Button, StyleSheet, ScrollView } from 'react-native'
+import Api from '../services/Api'
 
-const Cadastro = (props) => {
-    const [user, setUser] = useState({ nome: "", login: "", senha: "", numero: "", ip: "" })
-
+const Editar = (props) => {
+    const [usuarioAtual, setUsuarioAtual] = useState(props.usuarioLogado)
+    const [user, setUser] = useState({ nome: usuarioAtual.nome, login: usuarioAtual.login.login, senha: usuarioAtual.login.senha});
+    const [celular, setCelular] = useState({numeroNovo: usuarioAtual.celular.numero})
+    
     const capturarNome = (nome) => {
         let nomeUser = nome
 
@@ -13,8 +14,6 @@ const Cadastro = (props) => {
             nome: nomeUser,
             login: user.login,
             senha: user.senha,
-            numero: user.numero,
-            ip: user.ip
         })
     }
     const capturarUsuario = (login) => {
@@ -23,8 +22,6 @@ const Cadastro = (props) => {
             nome: user.nome,
             login: loginUser,
             senha: user.senha,
-            numero: user.numero,
-            ip: user.ip
         })
     }
     const capturarSenha = (senha) => {
@@ -33,98 +30,76 @@ const Cadastro = (props) => {
             nome: user.nome,
             login: user.login,
             senha: senhaUser,
-            numero: user.numero,
-            ip: user.ip
         })
     }
     const capturarCelular = (celular) => {
         let celularUser = celular
-        setUser({
-            nome: user.nome,
-            login: user.login,
-            senha: user.senha,
-            numero: celularUser,
-            ip: user.ip
-        })
+        setCelular({numeroNovo: celularUser});
+        
     }
 
-    async function cadastrar() {
-        NetInfo.fetch().then((state) => {
-            let ipD = state.details.ipAddress;
-            setUser({
-                nome: user.nome,
-                login: user.login,
-                senha: user.senha,
-                numero: user.numero,
-                ip: ipD
-            })
-        })
+    const atualizarUsuario = async () => {
+        const response = await Api.put(`/atualizaUsuario/${usuarioAtual.id}`, user);
 
-        if (user.nome == "" || user.usuario == "" || user.senha == "" || user.numero == "") {
-            alert("Todos os campos são obrigatórios")
-            return
-        }
+        const number = await Api.put(`/atualizarCelular/${usuarioAtual.id}`, celular);
 
-        const response = await Api.post('/cadastrar/', user);
-
-        props.onCadastroConcluido();
-
-        Keyboard.dismiss()
-
+        props.onUpdateUsuario(usuarioAtual.id);
     }
 
     return (
         <ScrollView>
             <View style={styles.tela}>
-                <Text style={styles.cadastroText}>Cadastro</Text>
-                <View style={styles.telaCadastro}>
-                    <View style={styles.fieldView}>
+                <Text style={styles.cadastroText}>Editar Perfil</Text>
+                <View style={styles.editView}>
+                    <View style={styles.editInput}>
                         <Text>Nome Completo: </Text>
                         <TextInput
                             style={styles.fieldInput}
-                            onChangeText={capturarNome}
                             value={user.nome}
+                            onChangeText = {capturarNome}
+
                         />
                     </View>
-                    <View style={styles.fieldView}>
+                    <View style={styles.editInput}>
                         <Text>Usuário: </Text>
                         <TextInput
                             style={styles.fieldInput}
-                            onChangeText={capturarUsuario}
-                            value={user.usuario}
+                            value={user.login}
+                            onChangeText = {capturarUsuario}
+
                         />
                     </View>
-                    <View style={styles.fieldView}>
+                    <View style={styles.editInput}>
                         <Text>Senha: </Text>
                         <TextInput
                             style={styles.fieldInput}
-                            onChangeText={capturarSenha}
                             value={user.senha}
-                            secureTextEntry={true}
+                            onChangeText = {capturarSenha}
                         />
                     </View>
-                    <View style={styles.fieldView}>
+                    <View style={styles.editInput}>
                         <Text>Número do celular: </Text>
                         <TextInput
                             style={styles.fieldInput}
-                            onChangeText={capturarCelular}
-                            value={user.celular}
+                            value={celular.numeroNovo.toString()}
+                            onChangeText = {capturarCelular}
+
                         />
                     </View>
                     <View style={styles.button}>
                         <Button
-                            title="Cadastrar"
-                            onPress={cadastrar}
+                            title="Aplicar alterações"
+                            onPress = {atualizarUsuario}
                         />
                         <Button
                             title="voltar"
-                            onPress={props.onVoltarLogin}
+                            onPress={props.onVoltar}
                         />
                     </View>
                 </View>
             </View>
         </ScrollView>
-    );
+    )
 }
 
 const styles = StyleSheet.create({
@@ -133,16 +108,16 @@ const styles = StyleSheet.create({
         marginTop: 35,
         justifyContent: 'center',
     },
-    telaCadastro: {
+    editInput: {
+        alignItems: 'center',
+        marginBottom: 13,
+    },
+    editView: {
         flexDirection: 'column',
         borderWidth: 1,
         borderRadius: 20,
         padding: 20,
         marginHorizontal: 10,
-    },
-    fieldView: {
-        alignItems: 'center',
-        marginBottom: 13,
     },
     fieldInput: {
         borderWidth: 1,
@@ -155,8 +130,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         width: '100%',
         justifyContent: 'space-between',
-        paddingHorizontal: 45,
-        marginVertical: 10
+        paddingHorizontal: 25,
+        marginVertical: 30,
     },
     cadastroText: {
         textAlign: 'center',
@@ -165,6 +140,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 35,
     }
-});
+})
 
-export default Cadastro
+export default Editar
