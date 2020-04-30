@@ -3,15 +3,15 @@ import { Button, View, StyleSheet, Text, FlatList, ScrollView } from 'react-nati
 import AmigoItem from '../components/AmigoItem'
 
 const TelaPrincipal = (props) => {
-    const [users, setUsers] = useState([
-        {key: 1, nome: "Teste1", usuario: "test1", senha: "2222", celular: "977773333"},
-        {key: 2, nome: "Teste2", usuario: "test2", senha: "2222", celular: "977773333"},
-        {key: 3, nome: "Teste3", usuario: "test3", senha: "2222", celular: "977773333"},
-        {key: 4, nome: "Teste4", usuario: "test4", senha: "2222", celular: "977773333"},
-        {key: 5, nome: "Teste5", usuario: "test5", senha: "2222", celular: "977773333"},
-        {key: 6, nome: "Teste6", usuario: "test6", senha: "2222", celular: "977773333"},
-        {key: 7, nome: "Teste7", usuario: "test7", senha: "2222", celular: "977773333"},
-        {key: 8, nome: "Teste8", usuario: "test8", senha: "2222", celular: "977773333"},
+    const [friends, setFriends] = useState([
+        {key: 1, nome: "Teste1", celular: "977773333", andar: "2º andar", distancia: "500m"},
+        {key: 2, nome: "Teste2", celular: "977773333", andar: "2º andar", distancia: "500m"},
+        {key: 3, nome: "Teste3", celular: "977773333", andar: "2º andar", distancia: "500m"},
+        {key: 4, nome: "Teste4", celular: "977773333", andar: "2º andar", distancia: "500m"},
+        {key: 5, nome: "Teste5", celular: "977773333", andar: "2º andar", distancia: "500m"},
+        {key: 6, nome: "Teste6", celular: "977773333", andar: "2º andar", distancia: "500m"},
+        {key: 7, nome: "Teste7", celular: "977773333", andar: "2º andar", distancia: "500m"},
+        {key: 8, nome: "Teste8", celular: "977773333", andar: "2º andar", distancia: "500m"},
     ])
 
     return (
@@ -38,13 +38,15 @@ const TelaPrincipal = (props) => {
             </View>
             <View style={styles.rightView}>
                 <FlatList
-                    data={users}
+                    data={friends}
                     renderItem={
-                        user => (
+                        friend => (
                             <AmigoItem
-                                chave={user.item.key}
-                                nome={user.item.nome}
-                                celular={user.item.celular}
+                                chave={friend.item.key}
+                                nome={friend.item.nome}
+                                celular={friend.item.celular}
+                                andar={friend.item.andar}
+                                distancia={friend.item.distancia}
                             />
                         )
                     }
@@ -63,7 +65,7 @@ const styles = StyleSheet.create({
     },
     buttonView: {
         flexDirection: 'column',
-        width: '80%',
+        width: '70%',
         marginRight: 20,
     },
     rightView: {

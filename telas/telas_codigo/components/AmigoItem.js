@@ -1,5 +1,6 @@
 import React from 'react'
 import { Button, View, StyleSheet, Text } from 'react-native'
+import Icon from 'react-native-vector-icons/FontAwesome'
 
 const AmigoItem = (props) => {
 
@@ -16,17 +17,24 @@ const AmigoItem = (props) => {
                         <Text style={styles.text}>Telefone: </Text>
                         <Text>{props.celular}</Text>
                     </View>
+                    <View style={styles.textField}>
+                        <Text style={styles.text}>Andar: </Text>
+                        <Text>{props.andar}</Text>
+                    </View>
+                    <View style={styles.textField}>
+                        <Text style={styles.text}>Distância: </Text>
+                        <Text>{props.distancia}</Text>
+                    </View>
                 </View>
                 <View style={styles.buttonView}>
-                    <View style={{ marginRight: 6 }}>
-                        <Button title='Localizar' />
-                    </View>
-                    <View>
-                        <Button
-                            title='Excluir'
-                            color='#fa6464'
-                        />
-                    </View>
+                    <Icon.Button
+                        name="trash"
+                        iconStyle={{ marginRight: 0 }}
+                        borderRadius={8}
+                        size={18}
+                        backgroundColor="#fa6464"
+                        onPress={() => alert('Excluir amigo')}
+                    />
                 </View>
             </View>
         </View>
@@ -39,22 +47,22 @@ const styles = StyleSheet.create({
         paddingHorizontal: 6,
     },
     buttonView: {
-        flexDirection: 'row',
-        padding: 15,
+        justifyContent: 'flex-start',
+        paddingLeft: 18,
+        paddingRight: 8
     },
     itemLista: {
-        flexDirection: 'column',
+        flexDirection: 'row',
         borderWidth: 1,
         borderColor: '#00000066',
         marginVertical: 8,
         marginHorizontal: 6,
-        paddingTop: 8,
-        paddingHorizontal: 6
+        paddingVertical: 12,
+        paddingLeft: 8
     },
     textField: {
         flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center'
+        marginBottom: 2
     },
     text: {
         fontWeight: 'bold',
