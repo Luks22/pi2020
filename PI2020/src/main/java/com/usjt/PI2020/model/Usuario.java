@@ -37,6 +37,15 @@ public class Usuario implements Serializable{
 	private String localizacao;
 	
 	@Column(nullable = true, length = 200)
+	private String longitude;
+	
+	@Column(nullable = true, length = 200)
+	private String latitude;
+	
+	@Column(nullable = true, length = 200)
+	private String altitude;
+	
+	@Column(nullable = true, length = 200)
 	private String roteadorBssid;
 	
 	@OneToOne(optional = false, cascade=CascadeType.ALL)
@@ -83,6 +92,30 @@ public class Usuario implements Serializable{
 		this.localizacao = localizacao;
 	}
 
+	public String getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
+	}
+
+	public String getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
+
+	public String getAltitude() {
+		return altitude;
+	}
+
+	public void setAltitude(String altitude) {
+		this.altitude = altitude;
+	}
+
 	public String getRoteadorBssid() {
 		return roteadorBssid;
 	}
@@ -112,7 +145,8 @@ public class Usuario implements Serializable{
 	@Override
 	public String toString() {
 		return "Usuario [id=" + id + ", nome=" + nome + ", login=" + login + ", localizacao=" + localizacao
-				+ ", roteadorBssid=" + roteadorBssid + ", celular=" + celular + ", amigos=" + amigos + "]";
+				+ ", longitude=" + longitude + ", latitude=" + latitude + ", altitude=" + altitude + ", roteadorBssid="
+				+ roteadorBssid + ", celular=" + celular + ", amigos=" + amigos + "]";
 	}
 
 	@Override

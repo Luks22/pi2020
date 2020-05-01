@@ -54,6 +54,13 @@ public class UsuarioController {
 		
 	}
 	
+	@PutMapping("/atualizaUsuario/{id}/Coordenadas")//check
+	public void updateLocationCoords(@PathVariable(value = "id") Long userId, @Valid @RequestBody Map<String, String> params) {
+		
+		usuarioService.atualizaCoordenadas(userId, params);
+		
+	}
+	
 	@GetMapping("/login/username={login}&password={senha}")//check
 	public Usuario login(@PathVariable(value = "login") String login, @PathVariable(value = "senha") String senha) {
 		return usuarioService.login(login, senha);
@@ -62,5 +69,10 @@ public class UsuarioController {
 	@GetMapping("/amigos/{id}")//check
 	public List<Usuario> listaAmigos(@PathVariable(value = "id") Long userId) {
 		return usuarioService.amigos(userId);
+	}
+	
+	@GetMapping("/amigosNaArea/{id}")//check
+	public List<Usuario> listaAmigosNaArea(@PathVariable(value = "id") Long userId) {
+		return usuarioService.amigosNaArea(userId);
 	}
 }

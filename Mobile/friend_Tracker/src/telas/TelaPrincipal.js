@@ -4,6 +4,7 @@ import WifiManager from 'react-native-wifi-reborn';
 import { NetworkInfo } from "react-native-network-info";
 import AmigoItem from '../components/AmigoItem';
 import Api from '../services/Api';
+import GetLocation from 'react-native-get-location';
 
 const TelaPrincipal = (props) => {
     const [usuario, setUsuario] = useState(props.usuarioLogado)
@@ -32,6 +33,28 @@ const TelaPrincipal = (props) => {
         setListaAmigos(response.data);
     }
 
+    const calcDistance = (latitude1, latitude2, longitude1, longitude2) => {
+        const radius = 6371;
+
+        const lat1 = latitude1;
+        const lat2 = latitude2;
+        const lon1 = longitude1;
+        const lon2 = longitude2;
+
+        const dLat = (lat2 - lat1) * (Math.PI / 180);
+        const dLon = (lon2 - lon1) * (Math.PI / 180);
+
+        const a =
+            Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos((lat1 * (Math.PI / 180))) * Math.cos((lat2 * (Math.PI / 180))) *
+            Math.sin(dLon / 2) * Math.sin(dLon / 2)
+            ;
+
+        const center = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        const distance = radius * center;
+
+        return distance;
+    }
 
     useEffect(() => {
 
@@ -59,7 +82,7 @@ const TelaPrincipal = (props) => {
             );
 
             roteadores.map(roteador => {
-                let router = {ssid: roteador.SSID, bssid: roteador.BSSID};
+                let router = { ssid: roteador.SSID, bssid: roteador.BSSID };
                 const response = Api.post("/insereRoteador", router);
             })
         }
@@ -68,7 +91,7 @@ const TelaPrincipal = (props) => {
     }, [listaAmigos]);
 
     useEffect(() => {
-
+        
         const localizacaoAtual = () => {
 
             NetworkInfo.getBSSID().then(async bssidAtual => {
@@ -85,20 +108,55 @@ const TelaPrincipal = (props) => {
 
                 let distance = Math.ceil(Math.pow(10.0, (27.55 - (20 * Math.log10(frequencia)) + Math.abs(sinal)) / 20));
 
-                const localizacao = ({ roteador: bssidAtual, localizacao: distance.toString() });
+                const localizacao = ({
+                    roteador: bssidAtual,
+                    localizacao: distance.toString(),
+                });
 
-                if (localizacao.roteador != "" && localizacao.localizacao != "" &&  localizacao.localizacao != "Infinity") {
+                if (localizacao.roteador != "" && localizacao.localizacao != "" && localizacao.localizacao != "Infinity") {
 
                     const response = await Api.put(`/atualizaUsuario/${usuario.id}/Localizacao`, localizacao)
 
                 }
             });
+
         }
 
         localizacaoAtual();
 
     }, [roteadores]);
 
+    useEffect(() => {
+
+        const coordenadasAtuais = () => {
+
+            GetLocation.getCurrentPosition({
+                enableHighAccuracy: true,
+                timeout: 15000,
+            }).then(async location => {
+
+                let altitude = 0;
+                let longitude = 0;
+                let latitude = 0;
+
+                altitude = location.altitude;
+                longitude = location.longitude;
+                latitude = location.latitude;
+
+                const localizacao = ({
+                    altitude: altitude,
+                    latitude: latitude,
+                    longitude: longitude
+                });
+
+                const response = await Api.put(`/atualizaUsuario/${usuario.id}/Coordenadas`, localizacao)
+
+            });
+        }
+
+        coordenadasAtuais();
+
+    }, [usuario]);
 
     return (
         <ScrollView>
