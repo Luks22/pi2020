@@ -16,6 +16,7 @@
     "react-native": "0.62.2",
     "react-native-get-location": "^1.4.2",
     "react-native-network-info": "^5.2.1",
+    "react-native-vector-icons": "^6.6.0",
     "react-native-wifi-reborn": "^3.1.2"
   },
   "devDependencies": {

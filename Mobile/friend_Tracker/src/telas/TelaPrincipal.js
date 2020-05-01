@@ -5,11 +5,13 @@ import { NetworkInfo } from "react-native-network-info";
 import AmigoItem from '../components/AmigoItem';
 import Api from '../services/Api';
 import GetLocation from 'react-native-get-location';
+import ListaAmigos from '../components/ListaAmigos';
 
 const TelaPrincipal = (props) => {
     const [usuario, setUsuario] = useState(props.usuarioLogado)
     const [listaAmigos, setListaAmigos] = useState([]);
     const [roteadores, setRoteadores] = useState([]);
+    const [amigosPerto, setAmigosPerto] = useState([]);
 
     async function deletarAmigo(idAmigo) {
 
@@ -31,6 +33,38 @@ const TelaPrincipal = (props) => {
         const response = await Api.get(`/amigos/${usuario.id}`);
 
         setListaAmigos(response.data);
+
+        setAmigosPerto([]);
+    }
+
+    const amigosNasProximidades = async () => {
+        const response = await Api.get(`/usuario/${usuario.id}`);
+
+        setListaAmigos(response.data);
+
+        let amigoNaArea = { id: 0, nome: '', numero: '', altura: 0, distancia: 0 }
+
+        let amigosNasProximidades = [];
+
+        listaAmigos.map((amigo) => {
+            console.log(usuario);
+            if (usuario.roteadorBssid === amigo.roteadorBssid && usuario.localizacao >= amigo.localizacao) {
+                console.log("entrou");
+                let distancia = Math.ceil(calcDistance(usuario.latitude, amigo.latitude, usuario.longitude, amigo.longitude) * 1000);
+                let altura = Math.floor(amigo.altitude);
+
+                amigoNaArea = { id: amigo.id, nome: amigo.nome, numero: amigo.celular.numero, altitude: altura, distancia: distancia };
+
+                amigosNasProximidades.push(amigoNaArea);
+            }
+        });
+
+        if (amigosNasProximidades.length <= 0) {
+            alert("Voce nao tem amigos nas proximidades");
+            return;
+        }
+
+        setAmigosPerto(amigosNasProximidades);
     }
 
     const calcDistance = (latitude1, latitude2, longitude1, longitude2) => {
@@ -91,7 +125,7 @@ const TelaPrincipal = (props) => {
     }, [listaAmigos]);
 
     useEffect(() => {
-        
+
         const localizacaoAtual = () => {
 
             NetworkInfo.getBSSID().then(async bssidAtual => {
@@ -156,65 +190,105 @@ const TelaPrincipal = (props) => {
 
         coordenadasAtuais();
 
-    }, [usuario]);
+    }, []);
+
+
+
+    let conteudo = <FlatList
+        data={listaAmigos}
+        renderItem={
+            friend => (
+                <ListaAmigos
+                    chave={friend.item.id}
+                    nome={friend.item.nome}
+                    celular={friend.item.celular.numero}
+                    onExcluirAmigo={deletarAmigo}
+                />
+            )
+        }
+    />
+
+    if (amigosPerto.length > 0) {
+        conteudo = <FlatList
+            data={amigosPerto}
+            renderItem={
+                friend => (
+                    <AmigoItem
+                        chave={friend.item.id}
+                        nome={friend.item.nome}
+                        celular={friend.item.numero}
+                        andar={friend.item.altitude}
+                        distancia={friend.item.distancia}
+                        onExcluirAmigo={deletarAmigo}
+                    />
+                )
+            }
+        />
+    }
+
 
     return (
-        <ScrollView>
-            <View style={styles.tela}>
-                <View style={styles.leftView}>
-                    <View style={styles.buttonView} >
-                        <View style={{ paddingLeft: 8, marginBottom: 8 }}>
-                            <Button title='Editar Perfil'
-                                onPress={props.onEditar}
-                            />
-                        </View>
-                        <View style={{ paddingLeft: 8 }}>
-                            <Button title='Sair'
-                                onPress={props.onSair}
-                            />
-                        </View>
-                        <View style={{ paddingLeft: 8, marginTop: 35 }}>
-                            <Button
-                                title='Add Amigos'
-                                onPress={props.onAddAmigo}
-                            />
-                        </View>
-                        <View style={{ paddingLeft: 8, marginTop: 35 }}>
-                            <Button
-                                title='Carregar amigos'
-                                onPress={loadAmigos}
-                            />
-                        </View>
+        <View style={styles.tela}>
+            <View style={styles.leftView}>
+                <View style={styles.buttonView} >
+                    <View style={{ paddingLeft: 8, marginBottom: 8 }}>
+                        <Button title='Editar Perfil'
+                            onPress={props.onEditar}
+                        />
+                    </View>
+                    <View style={{ paddingLeft: 8 }}>
+                        <Button title='Sair'
+                            onPress={props.onSair}
+                        />
+                    </View>
+                    <View style={{ paddingLeft: 8, marginTop: 35 }}>
+                        <Button
+                            title='Add Amigos'
+                            onPress={props.onAddAmigo}
+                        />
+                    </View>
+                    <View style={{ paddingLeft: 8, marginTop: 35 }}>
+                        <Button
+                            title='Listar Amigos'
+                            onPress={loadAmigos}
+                        />
+                    </View>
+                    <View style={{ paddingLeft: 8, marginTop: 35 }}>
+                        <Button
+                            title='Amigos nas proximidades'
+                            onPress={amigosNasProximidades}
+                        />
                     </View>
                 </View>
-                <View style={styles.rightView}>
-                    <AmigoItem />
-                    <AmigoItem />
-                    <AmigoItem />
-                    <AmigoItem />
-                </View>
             </View>
-        </ScrollView>
-
+            <View style={styles.rightView}>
+                {conteudo}
+            </View>
+        </View>
     )
 
 }
+
 const styles = StyleSheet.create({
     tela: {
-        paddingVertical: 50,
+        marginTop: 15,
         flex: 1,
         flexDirection: 'row',
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
     buttonView: {
         flexDirection: 'column',
-        width: '80%',
+        width: '70%',
         marginRight: 20,
     },
     rightView: {
         borderWidth: 1,
+        paddingVertical: 10,
+        paddingHorizontal: 6,
+        borderRadius: 30,
     },
     leftView: {
+        flex: 1,
         alignItems: 'center',
     }
 

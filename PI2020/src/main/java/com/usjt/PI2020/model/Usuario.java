@@ -144,7 +144,7 @@ public class Usuario implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Usuario [id=" + id + ", nome=" + nome + ", login=" + login + ", localizacao=" + localizacao
+		return "Usuario [id=" + id + ", nome=" + nome + ", localizacao=" + localizacao
 				+ ", longitude=" + longitude + ", latitude=" + latitude + ", altitude=" + altitude + ", roteadorBssid="
 				+ roteadorBssid + ", celular=" + celular + ", amigos=" + amigos + "]";
 	}

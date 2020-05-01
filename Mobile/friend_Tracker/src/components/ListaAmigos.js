@@ -2,7 +2,7 @@ import React from 'react'
 import { Button, View, StyleSheet, Text } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
 
-const AmigoItem = (props) => {
+const ListaAmigos = (props) => {
 
     return (
 
@@ -16,14 +16,6 @@ const AmigoItem = (props) => {
                     <View style={styles.textField}>
                         <Text style={styles.text}>Telefone: </Text>
                         <Text>{props.celular}</Text>
-                    </View>
-                    <View style={styles.textField}>
-                        <Text style={styles.text}>Andar: </Text>
-                        <Text>{props.andar}</Text>
-                    </View>
-                    <View style={styles.textField}>
-                        <Text style={styles.text}>Distância: </Text>
-                        <Text>{props.distancia} M</Text>
                     </View>
                 </View>
                 <View style={styles.buttonView}>
@@ -70,4 +62,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default AmigoItem
+export default ListaAmigos;
