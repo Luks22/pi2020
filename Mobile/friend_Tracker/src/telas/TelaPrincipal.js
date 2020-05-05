@@ -38,18 +38,18 @@ const TelaPrincipal = (props) => {
     }
 
     const amigosNasProximidades = async () => {
-        const response = await Api.get(`/usuario/${usuario.id}`);
+        const response = await Api.get(`/amigos/${usuario.id}`);
+        const user = await Api.get(`/usuario/${usuario.id}`);
 
         setListaAmigos(response.data);
+        setUsuario(user.data);
 
         let amigoNaArea = { id: 0, nome: '', numero: '', altura: 0, distancia: 0 }
 
         let amigosNasProximidades = [];
 
         listaAmigos.map((amigo) => {
-            console.log(usuario);
             if (usuario.roteadorBssid === amigo.roteadorBssid && usuario.localizacao >= amigo.localizacao) {
-                console.log("entrou");
                 let distancia = Math.ceil(calcDistance(usuario.latitude, amigo.latitude, usuario.longitude, amigo.longitude) * 1000);
                 let altura = Math.floor(amigo.altitude);
 
