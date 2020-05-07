@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 import { View, StyleSheet, Text, TextInput, Button, Alert, ScrollView } from 'react-native'
 import Api from '../services/Api';
 
-const AdicionarAmigo = (props) => {
+const AdicionarAmigo = ({navigation}) => {
 
-    const [usuario, setUsuario] = useState(props.usuarioLogado);
+    const [usuario, setUsuario] = useState(navigation.getParam('usuario'));
     const [numero, setNumero] = useState({ numeroAmigo: '' });
 
     const capturarNumero = (numero) => {
@@ -35,7 +35,9 @@ const AdicionarAmigo = (props) => {
             return;
         }
 
-        props.onAmigoAdicionado(numero.numeroAmigo);
+        alert(`Numero ${numero.numeroAmigo} adicionado com sucesso!!!!`);
+        setNumero({ numeroAmigo: '' });
+        navigation.push('TelaPrincipal', {usuario: usuario});
     }
 
 
@@ -59,7 +61,10 @@ const AdicionarAmigo = (props) => {
                         />
                         <Button
                             title="Voltar"
-                            onPress={props.onVoltar}
+                            onPress={() => {
+                                setNumero({ numeroAmigo: '' });
+                                navigation.push('TelaPrincipal', {usuario: usuario})}
+                            }
                         />
                     </View>
                 </View>

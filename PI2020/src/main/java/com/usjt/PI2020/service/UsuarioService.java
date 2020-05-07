@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.usjt.PI2020.model.Celular;
 import com.usjt.PI2020.model.Login;
 import com.usjt.PI2020.model.Usuario;
+import com.usjt.PI2020.repository.CelularRepository;
 import com.usjt.PI2020.repository.LoginRepository;
 import com.usjt.PI2020.repository.UsuarioRepository;
 
@@ -18,6 +19,9 @@ public class UsuarioService {
 
 	@Autowired
 	private UsuarioRepository usuarioRepo;
+	
+	@Autowired
+	private CelularRepository celularRepo;
 
 	@Autowired
 	private LoginRepository loginRepo;
@@ -35,6 +39,15 @@ public class UsuarioService {
 		Celular cel = new Celular();
 		cel.setIp(parameters.get("ip"));
 		cel.setNumero(Long.parseLong(parameters.get("numero")));
+		
+		List<Celular> celulares = celularRepo.findAll();
+		
+		for(Celular c : celulares) {
+			if(c.getNumero() == cel.getNumero()) {
+				return 2;
+			}
+		}
+		
 
 		cel.setUsuario(user);
 		login.setUsuario(user);
@@ -79,7 +92,7 @@ public class UsuarioService {
 		return "amigo deletado";
 	}
 
-	public void atualizaUsuario(Long id, Map<String, String> parameters) {
+	public int atualizaUsuario(Long id, Map<String, String> parameters) {
 
 		Usuario user = new Usuario();
 		user = usuarioRepo.getOne(id);
@@ -92,7 +105,10 @@ public class UsuarioService {
 			usuarioRepo.save(user);
 		} catch (Exception e) {
 			System.out.println("login existente");
+			return 0;
 		}
+		
+		return 1;
 
 	}
 

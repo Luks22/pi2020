@@ -13,7 +13,7 @@ public class CelularService {
 	@Autowired
 	private UsuarioRepository usuarioRepo;
 	
-	public void atualizaCelular(Long id, Map<String, String> novoNumero) {
+	public int atualizaCelular(Long id, Map<String, String> novoNumero) {
 
 		Usuario user = usuarioRepo.getOne(id);
 
@@ -23,7 +23,10 @@ public class CelularService {
 		usuarioRepo.save(user);
 		}catch(Exception e) {
 			System.out.println("Celular ja existente");
+			return 0;
 		}
+		
+		return 1;
 	}
 
 	public int insereAmigo(long userId, Map<String, String> params) {

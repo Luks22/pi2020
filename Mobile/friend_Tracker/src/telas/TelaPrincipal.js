@@ -7,8 +7,8 @@ import Api from '../services/Api';
 import GetLocation from 'react-native-get-location';
 import ListaAmigos from '../components/ListaAmigos';
 
-const TelaPrincipal = (props) => {
-    const [usuario, setUsuario] = useState(props.usuarioLogado)
+const TelaPrincipal = ({navigation}) => {
+    const [usuario, setUsuario] = useState(navigation.getParam('usuario'));
     const [listaAmigos, setListaAmigos] = useState([]);
     const [roteadores, setRoteadores] = useState([]);
     const [amigosPerto, setAmigosPerto] = useState([]);
@@ -23,6 +23,8 @@ const TelaPrincipal = (props) => {
         const deletarAmigo = await Api.delete(`/deletarAmigo/${usuario.id}/numeroAmigo=${numero.toString()}`);
 
         const deletarUsuarioDoAmigo = await Api.delete(`/deletarAmigo/${idAmigo}/numeroAmigo=${numeroUsuario.toString()}`);
+
+        loadAmigos();
 
         alert(deletarAmigo.data);
 
@@ -233,18 +235,21 @@ const TelaPrincipal = (props) => {
                 <View style={styles.buttonView} >
                     <View style={{ paddingLeft: 8, marginBottom: 8 }}>
                         <Button title='Editar Perfil'
-                            onPress={props.onEditar}
+                            onPress={() => {
+                                navigation.navigate('Editar', {usuario: usuario})}}
                         />
                     </View>
                     <View style={{ paddingLeft: 8 }}>
                         <Button title='Sair'
-                            onPress={props.onSair}
+                            onPress={() => {
+                                navigation.navigate('Login')}}
                         />
                     </View>
                     <View style={{ paddingLeft: 8, marginTop: 35 }}>
                         <Button
                             title='Add Amigos'
-                            onPress={props.onAddAmigo}
+                            onPress={() => {
+                                navigation.navigate('AdicionarAmigo', {usuario: usuario})}}
                         />
                     </View>
                     <View style={{ paddingLeft: 8, marginTop: 35 }}>

@@ -41,9 +41,9 @@ public class UsuarioController {
 	}
 
 	@PutMapping("/atualizaUsuario/{id}")//check
-	public void updateUser(@PathVariable(value = "id") Long userId, @Valid @RequestBody Map<String, String> params) {
+	public int updateUser(@PathVariable(value = "id") Long userId, @Valid @RequestBody Map<String, String> params) {
 		
-		usuarioService.atualizaUsuario(userId, params);
+		return usuarioService.atualizaUsuario(userId, params);
 		
 	}
 	

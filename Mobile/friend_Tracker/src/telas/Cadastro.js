@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, TextInput, Button, Keyboard, ScrollView } from 
 import Api from '../services/Api';
 import NetInfo from "@react-native-community/netinfo";
 
-const Cadastro = (props) => {
+const Cadastro = ({navigation}) => {
     const [user, setUser] = useState({ nome: "", login: "", senha: "", numero: "", ip: "" })
 
     const capturarNome = (nome) => {
@@ -67,7 +67,19 @@ const Cadastro = (props) => {
 
         const response = await Api.post('/cadastrar/', user);
 
-        props.onCadastroConcluido();
+        if(response.data == 0){
+            alert("Login Já Utilizado");
+            return;
+        }else if(response.data == 2){
+            alert("Numero Já Utilizado");
+            return;
+        }
+
+        alert("Cadastro efetuado com sucesso!!!!!");
+
+        setUser({ nome: "", login: "", senha: "", numero: "", ip: "" });
+
+        navigation.navigate('Login');
 
         Keyboard.dismiss()
 
@@ -118,7 +130,8 @@ const Cadastro = (props) => {
                         />
                         <Button
                             title="voltar"
-                            onPress={props.onVoltarLogin}
+                            onPress={() => {
+                                navigation.navigate('Login')}}
                         />
                     </View>
                 </View>

@@ -24,8 +24,8 @@ public class CelularController {
 	public CelularService celularService;
 
 	@PutMapping("/atualizarCelular/{id}")
-	public void updateUser(@PathVariable(value = "id") Long userId, @Valid @RequestBody Map<String, String> params) {
-		celularService.atualizaCelular(userId, params);
+	public int updateUser(@PathVariable(value = "id") Long userId, @Valid @RequestBody Map<String, String> params) {
+		return celularService.atualizaCelular(userId, params);
 	}
 	
 	@PostMapping("/insereAmigo/{id}")

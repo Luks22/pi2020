@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import { View, Text, TextInput, Button, StyleSheet, ScrollView } from 'react-native'
 import Api from '../services/Api'
 
-const Editar = (props) => {
-    const [usuarioAtual, setUsuarioAtual] = useState(props.usuarioLogado)
+const Editar = ({navigation}) => {
+    const [usuarioAtual, setUsuarioAtual] = useState(navigation.getParam('usuario'));
     const [user, setUser] = useState({ nome: usuarioAtual.nome, login: usuarioAtual.login.login, senha: usuarioAtual.login.senha});
     const [celular, setCelular] = useState({numeroNovo: usuarioAtual.celular.numero})
     
@@ -43,7 +43,18 @@ const Editar = (props) => {
 
         const number = await Api.put(`/atualizarCelular/${usuarioAtual.id}`, celular);
 
-        props.onUpdateUsuario(usuarioAtual.id);
+        if(response.data == 0){
+            alert("Nome de Login Já Existe");
+            return;
+        }else if(number.data){
+            alert("Numero Já Existe");
+            return;
+        }
+        
+        
+        const usuario = await Api.get(`/usuario/${usuarioAtual.id}`);
+
+        navigation.push('TelaPrincipal', {usuario: usuario.data});
     }
 
     return (
@@ -93,7 +104,8 @@ const Editar = (props) => {
                         />
                         <Button
                             title="voltar"
-                            onPress={props.onVoltar}
+                            onPress={() => {
+                                navigation.push('TelaPrincipal', {usuario: usuarioAtual})} }
                         />
                     </View>
                 </View>

@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, PermissionsAndroid } from 'react-native';
 import Api from '../services/Api';
 
-const Login = (props) => {
+const Login = ({ navigation }) => {
     const [user, setUser] = useState({ login: '', senha: '' })
-
 
     const capturarLogin = (login) => {
         let nomeLogin = login;
@@ -37,8 +36,20 @@ const Login = (props) => {
             return;
         }
 
-        props.onLogar(response.data);
-
+        const granted = await PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+            {
+              title: 'Friend Tracker precisa de sua permissão para logar:',
+              message: 'Este aplicativo requer acesso a sua localização',
+            }
+          );
+          if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+            navigation.navigate('TelaPrincipal', {usuario: response.data});
+            setUser({login: '', senha: '' });
+            alert("Bem vindo!!!");
+          } else {
+            return;
+          }
     }
 
 
@@ -71,7 +82,9 @@ const Login = (props) => {
                         <Text style={{ textAlign: 'center', fontSize: 13 }}>Não possui uma conta?</Text>
                         <Button
                             title="Cadastrar"
-                            onPress={props.onCadastro}
+                            onPress={() => {
+                                setUser({login: '', senha: '' });
+                                navigation.navigate('Cadastro')}}
                         />
                     </View>
                 </View>
