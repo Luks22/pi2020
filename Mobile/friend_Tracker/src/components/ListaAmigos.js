@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     itemLista: {
         flexDirection: 'row',
         borderWidth: 1,
-        borderColor: '#00000066',
+        borderColor: '#000066',
         marginVertical: 8,
         marginHorizontal: 6,
         paddingVertical: 12,

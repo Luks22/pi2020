@@ -79,6 +79,8 @@ target 'friend_Tracker' do
 
   pod 'react-native-netinfo', :path => '../node_modules/@react-native-community/netinfo'
 
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
   target 'friend_TrackerTests' do
     inherit! :complete
     # Pods for testing

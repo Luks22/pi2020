@@ -47,14 +47,14 @@ const styles = StyleSheet.create({
         paddingHorizontal: 6,
     },
     buttonView: {
-        justifyContent: 'flex-start',
+        justifyContent: 'space-around',
         paddingLeft: 18,
         paddingRight: 8
     },
     itemLista: {
         flexDirection: 'row',
         borderWidth: 1,
-        borderColor: '#00000066',
+        borderColor: '#000066',
         marginVertical: 8,
         marginHorizontal: 6,
         paddingVertical: 12,

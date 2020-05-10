@@ -46,7 +46,7 @@ const Editar = ({navigation}) => {
         if(response.data == 0){
             alert("Nome de Login Já Existe");
             return;
-        }else if(number.data){
+        }else if(number.data == 0){
             alert("Numero Já Existe");
             return;
         }

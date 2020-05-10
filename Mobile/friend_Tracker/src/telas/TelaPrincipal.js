@@ -6,6 +6,8 @@ import AmigoItem from '../components/AmigoItem';
 import Api from '../services/Api';
 import GetLocation from 'react-native-get-location';
 import ListaAmigos from '../components/ListaAmigos';
+import calcDistance from '../utils/CalcDistance';
+import calcAndar from '../utils/calcAndar';
 
 const TelaPrincipal = ({navigation}) => {
     const [usuario, setUsuario] = useState(navigation.getParam('usuario'));
@@ -39,7 +41,7 @@ const TelaPrincipal = ({navigation}) => {
         setAmigosPerto([]);
     }
 
-    const amigosNasProximidades = async () => {
+    const amigosNasProximidades = async () => {              
         const response = await Api.get(`/amigos/${usuario.id}`);
         const user = await Api.get(`/usuario/${usuario.id}`);
 
@@ -53,9 +55,13 @@ const TelaPrincipal = ({navigation}) => {
         listaAmigos.map((amigo) => {
             if (usuario.roteadorBssid === amigo.roteadorBssid && usuario.localizacao >= amigo.localizacao) {
                 let distancia = Math.ceil(calcDistance(usuario.latitude, amigo.latitude, usuario.longitude, amigo.longitude) * 1000);
-                let altura = Math.floor(amigo.altitude);
+                
+                let altura1 = Math.floor(usuario.altitude);
+                let altura2 = Math.floor(amigo.altitude);
+                
+                let andar = calcAndar(altura1, altura2);
 
-                amigoNaArea = { id: amigo.id, nome: amigo.nome, numero: amigo.celular.numero, altitude: altura, distancia: distancia };
+                amigoNaArea = { id: amigo.id, nome: amigo.nome, numero: amigo.celular.numero, altitude: andar, distancia: distancia };
 
                 amigosNasProximidades.push(amigoNaArea);
             }
@@ -67,29 +73,6 @@ const TelaPrincipal = ({navigation}) => {
         }
 
         setAmigosPerto(amigosNasProximidades);
-    }
-
-    const calcDistance = (latitude1, latitude2, longitude1, longitude2) => {
-        const radius = 6371;
-
-        const lat1 = latitude1;
-        const lat2 = latitude2;
-        const lon1 = longitude1;
-        const lon2 = longitude2;
-
-        const dLat = (lat2 - lat1) * (Math.PI / 180);
-        const dLon = (lon2 - lon1) * (Math.PI / 180);
-
-        const a =
-            Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-            Math.cos((lat1 * (Math.PI / 180))) * Math.cos((lat2 * (Math.PI / 180))) *
-            Math.sin(dLon / 2) * Math.sin(dLon / 2)
-            ;
-
-        const center = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        const distance = radius * center;
-
-        return distance;
     }
 
     useEffect(() => {
