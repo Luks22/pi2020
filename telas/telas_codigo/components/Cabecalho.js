@@ -21,6 +21,7 @@ const styles = StyleSheet.create({
     titulo: {
         color: '#000',
         fontSize: 22,
+        fontFamily: 'IMFellFrenchCanonSC-Regular'
     }
 })  
 

@@ -71,8 +71,8 @@ const Cadastro = (props) => {
     return (
         <ScrollView>
             <View style={styles.tela}>
-                <Text style={styles.cadastroText}>Cadastro</Text>
                 <View style={styles.telaCadastro}>
+                <Text style={styles.cadastroText}>Cadastro</Text>
                     <View style={styles.fieldView}>
                         <Text>Nome Completo: </Text>
                         <TextInput
@@ -159,6 +159,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         fontWeight: 'bold',
         fontSize: 35,
+        marginBottom: 24
     }
 });
 

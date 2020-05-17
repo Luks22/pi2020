@@ -4,8 +4,8 @@ import AmigoItem from '../components/AmigoItem'
 
 const TelaPrincipal = (props) => {
     const [friends, setFriends] = useState([
-        {key: 1, nome: "Teste1", celular: "977773333", andar: "2º andar", distancia: "500m"},
-        {key: 2, nome: "Teste2", celular: "977773333", andar: "2º andar", distancia: "500m"},
+        {key: 1, nome: "Matheeeeeeeeeeeeeeeeeeeeeeeeeus", celular: "977773333", andar: "2º andar", distancia: "500m"},
+        {key: 2, nome: "Teste teste teste teste teste teste", celular: "977773333", andar: "2º andar", distancia: "500m"},
         {key: 3, nome: "Teste3", celular: "977773333", andar: "2º andar", distancia: "500m"},
         {key: 4, nome: "Teste4", celular: "977773333", andar: "2º andar", distancia: "500m"},
         {key: 5, nome: "Teste5", celular: "977773333", andar: "2º andar", distancia: "500m"},

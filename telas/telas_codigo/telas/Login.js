@@ -6,8 +6,9 @@ const Login = (props) => {
     return (
         <ScrollView>
             <View style={styles.tela}>
-                <Text style={styles.loginText}>Login</Text>
+                
                 <View style={styles.telaLogin}>
+                <Text style={styles.loginText}>Login</Text>
                     <View style={styles.fieldView}>
                         <Text>Usuário</Text>
                         <TextInput style={styles.fieldInput} />
@@ -66,9 +67,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         fontWeight: 'bold',
         fontSize: 35,
+        marginBottom: 24,
     },
     buttonView: {
-        paddingHorizontal: 40
+        paddingHorizontal: 40,
+        marginTop: 18,
     },
     buttonCadastro: {
         marginTop: 18
