@@ -1,12 +1,12 @@
 import React from 'react'
-import { View, Text, TextInput, Button, StyleSheet, ScrollView } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView } from 'react-native'
 
 const Editar = (props) => {
     return (
         <ScrollView>
             <View style={styles.tela}>
-                <Text style={styles.cadastroText}>Editar Perfil</Text>
                 <View style={styles.editView}>
+                    <Text style={styles.editText}>Editar Perfil</Text>
                     <View style={styles.editInput}>
                         <Text>Nome Completo: </Text>
                         <TextInput
@@ -35,14 +35,19 @@ const Editar = (props) => {
 
                         />
                     </View>
-                    <View style={styles.button}>
-                        <Button
-                            title="Aplicar alterações"
-                        />
-                        <Button
-                            title="voltar"
+                    <View style={styles.buttonView}>
+                        <TouchableOpacity>
+                            <View style={styles.buttonAplicar}>
+                                <Text style={styles.buttonText}>APLICAR ALTERAÇÕES</Text>
+                            </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity
                             onPress={props.onVoltar}
-                        />
+                        >
+                            <View style={styles.buttonVoltar}>
+                                <Text style={styles.buttonText}>VOLTAR</Text>
+                            </View>
+                        </TouchableOpacity>
                     </View>
                 </View>
             </View>
@@ -66,6 +71,7 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         padding: 20,
         marginHorizontal: 10,
+        backgroundColor: "#d4faff44",
     },
     fieldInput: {
         borderWidth: 1,
@@ -74,19 +80,43 @@ const styles = StyleSheet.create({
         marginTop: 4,
         paddingHorizontal: 2,
     },
-    button: {
+    buttonView: {
         flexDirection: 'row',
         width: '100%',
         justifyContent: 'space-between',
         paddingHorizontal: 25,
         marginVertical: 30,
     },
-    cadastroText: {
+    editText: {
         textAlign: 'center',
         justifyContent: 'center',
         alignItems: 'center',
         fontWeight: 'bold',
         fontSize: 35,
+        marginBottom: 24,
+    },
+    buttonAplicar: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#d4faff',
+        height: 36,
+        width: 165,
+        elevation: 2,
+        borderRadius: 10
+
+    },
+    buttonVoltar: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#d4faff',
+        height: 36,
+        width: 76,
+        elevation: 2,
+        borderRadius: 10
+    },
+    buttonText: {
+        fontSize: 14,
+        textAlign: 'center'
     }
 })
 

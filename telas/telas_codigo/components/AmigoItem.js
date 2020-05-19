@@ -31,8 +31,8 @@ const AmigoItem = (props) => {
                         name="trash"
                         iconStyle={{ marginRight: 0 }}
                         borderRadius={8}
-                        size={18}
-                        backgroundColor="#fa6464"
+                        size={16}
+                        backgroundColor="#fa646478"
                         onPress={() => alert('Excluir amigo')}
                     />
                 </View>
@@ -45,20 +45,23 @@ const AmigoItem = (props) => {
 const styles = StyleSheet.create({
     amigoItem: {
         paddingHorizontal: 6,
+        
     },
     buttonView: {
         flex: 1,
-        alignItems: 'center'
+        alignItems: 'flex-end',
+        paddingRight: 4
     },
     itemLista: {
         flexDirection: 'row',
-        alignItems: 'center',
+        alignItems: 'flex-start',
         borderWidth: 1,
         borderColor: '#00000066',
         marginVertical: 8,
         marginHorizontal: 6,
         paddingVertical: 12,
-        paddingLeft: 8
+        paddingLeft: 8,
+        backgroundColor: "#d4faff44",
     },
     textField: {
         flexDirection: 'row',

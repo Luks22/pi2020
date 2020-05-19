@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { StyleSheet, Text, View, TextInput, Button, Keyboard, ScrollView } from 'react-native'
+import { StyleSheet, Text, View, TextInput, Button, Keyboard, ScrollView, TouchableOpacity } from 'react-native'
 
 const Cadastro = (props) => {
     const [user, setUser] = useState({ nome: "", usuario: "", senha: "", celular: "" })
@@ -72,7 +72,7 @@ const Cadastro = (props) => {
         <ScrollView>
             <View style={styles.tela}>
                 <View style={styles.telaCadastro}>
-                <Text style={styles.cadastroText}>Cadastro</Text>
+                    <Text style={styles.cadastroText}>Cadastro</Text>
                     <View style={styles.fieldView}>
                         <Text>Nome Completo: </Text>
                         <TextInput
@@ -106,15 +106,21 @@ const Cadastro = (props) => {
                             value={user.celular}
                         />
                     </View>
-                    <View style={styles.button}>
-                        <Button
-                            title="Cadastrar"
+                    <View style={styles.buttonView}>
+                        <TouchableOpacity
                             onPress={cadastrar}
-                        />
-                        <Button
-                            title="voltar"
+                        >
+                            <View style={styles.buttonCadastrar}>
+                                <Text style={styles.buttonText}>CADASTRAR</Text>
+                            </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity
                             onPress={props.onVoltarLogin}
-                        />
+                        >
+                            <View style={styles.buttonVoltar}>
+                                <Text style={styles.buttonText}>VOLTAR</Text>
+                            </View>
+                        </TouchableOpacity>
                     </View>
                 </View>
             </View>
@@ -134,6 +140,7 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         padding: 20,
         marginHorizontal: 10,
+        backgroundColor: "#d4faff44",
     },
     fieldView: {
         alignItems: 'center',
@@ -146,9 +153,10 @@ const styles = StyleSheet.create({
         marginTop: 4,
         paddingHorizontal: 2,
     },
-    button: {
+    buttonView: {
         flexDirection: 'row',
         width: '100%',
+        alignItems: 'center',
         justifyContent: 'space-between',
         paddingHorizontal: 45,
         marginVertical: 10
@@ -160,6 +168,27 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 35,
         marginBottom: 24
+    },
+    buttonVoltar: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#d4faff',
+        height: 36,
+        width: 76,
+        elevation: 2,
+        borderRadius: 10
+    },
+    buttonCadastrar: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#d4faff',
+        height: 36,
+        width: 110,
+        elevation: 2,
+        borderRadius: 10
+    },
+    buttonText: {
+        fontSize: 14,
     }
 });
 

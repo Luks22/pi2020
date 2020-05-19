@@ -1,14 +1,14 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, Button, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, ScrollView, TouchableOpacity } from 'react-native';
 
 const Login = (props) => {
 
     return (
         <ScrollView>
             <View style={styles.tela}>
-                
+
                 <View style={styles.telaLogin}>
-                <Text style={styles.loginText}>Login</Text>
+                    <Text style={styles.loginText}>Login</Text>
                     <View style={styles.fieldView}>
                         <Text>Usuário</Text>
                         <TextInput style={styles.fieldInput} />
@@ -18,16 +18,21 @@ const Login = (props) => {
                         <TextInput style={styles.fieldInput} />
                     </View>
                     <View style={styles.buttonView}>
-                        <Button
-                            title="Logar"
-                            onPress={props.onLogar}
-                        />
+                        <TouchableOpacity
+                            onPress={props.onLogar}>
+                            <View style={styles.buttons}>
+                                <Text style={styles.buttonText}>LOGAR</Text>
+                            </View>
+                        </TouchableOpacity>
                         <View style={styles.buttonCadastro}>
                             <Text style={{ textAlign: 'center', fontSize: 13 }}>Não possui uma conta?</Text>
-                            <Button
-                                title="Cadastrar"
+                            <TouchableOpacity
                                 onPress={props.onCadastro}
-                            />
+                            >
+                                <View style={styles.buttons}>
+                                    <Text style={styles.buttonText}>CADASTRAR</Text>
+                                </View>
+                            </TouchableOpacity>
                         </View>
                     </View>
                 </View>
@@ -42,6 +47,7 @@ const styles = StyleSheet.create({
         flex: 1,
         marginTop: 35,
         justifyContent: 'center',
+
     },
     telaLogin: {
         flexDirection: 'column',
@@ -49,6 +55,8 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         padding: 30,
         marginHorizontal: 30,
+        backgroundColor: "#d4faff44",
+        elevation: 2
     },
     fieldView: {
         alignItems: 'center',
@@ -75,6 +83,17 @@ const styles = StyleSheet.create({
     },
     buttonCadastro: {
         marginTop: 18
+    },
+    buttons: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#d4faff',
+        height: 36,
+        elevation: 2,
+        borderRadius: 10
+    },
+    buttonText: {
+        fontSize: 14,
     }
 });
 

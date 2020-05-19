@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Header } from 'react-native';
+import { StyleSheet, View, ImageBackground, ScrollView } from 'react-native';
 import Login from './telas/Login'
 import Cadastro from './telas/Cadastro'
 import AdicionarAmigo from './telas/AdicionarAmigo'
@@ -13,6 +13,8 @@ export default function App() {
   const [clicouAdd, setClicouAdd] = useState(false)
   const [clicouPrincipal, setClicouPrincipal] = useState(false)
   const [clicouEditar, setClicouEditar] = useState(false)
+
+  const image = { uri: "https://www.desktopbackground.org/download/768x1280/2014/01/02/695204_simple-color-hd-1080p-wallpaper-color-hd-wallpaper-hd-1080p-hd_2560x1440_h.jpg" }
 
   const sair = () => {
     setClicouPrincipal(false)
@@ -62,14 +64,15 @@ export default function App() {
       onEditar={editar}
     />
   }
-  else if(clicouEditar == true) {
-    conteudo = <Editar onVoltar={telaPrincipal}/>
+  else if (clicouEditar == true) {
+    conteudo = <Editar onVoltar={telaPrincipal} />
   }
 
   return (
     <View style={styles.tela}>
-      <Cabecalho titulo={'Friend Tracker'}/>
-      {conteudo}
+      <ImageBackground source={image} style={styles.image} />
+      <Cabecalho titulo={'Friend Tracker'} />
+        {conteudo}
     </View>
   );
 }
@@ -77,5 +80,15 @@ export default function App() {
 const styles = StyleSheet.create({
   tela: {
     flex: 1,
-  }
+  },
+  image: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center",
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0
+  },
 });

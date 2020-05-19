@@ -12,11 +12,13 @@ const Titulo = (props) => {
 const styles = StyleSheet.create({
     cabecalho: {
         width: '100%',
-        height: 75,
-        paddingTop: 20,
-        backgroundColor: 'lightblue',
+        height: 65,
+        paddingTop: 18,
+        backgroundColor: '#bff7ff88',
         alignItems: 'center',
         justifyContent: 'center',
+        borderBottomWidth: 1,
+        
     },  
     titulo: {
         color: '#000',
