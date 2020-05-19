@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
-import { StyleSheet, Text, View, TextInput, Button, Keyboard, ScrollView } from 'react-native'
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Keyboard, ImageBackground } from 'react-native'
 import Api from '../services/Api';
 import NetInfo from "@react-native-community/netinfo";
+import image from '../constants/Imagem';
 
-const Cadastro = ({navigation}) => {
+const Cadastro = ({ navigation }) => {
     const [user, setUser] = useState({ nome: "", login: "", senha: "", numero: "", ip: "" })
 
     const capturarNome = (nome) => {
@@ -67,10 +68,10 @@ const Cadastro = ({navigation}) => {
 
         const response = await Api.post('/cadastrar/', user);
 
-        if(response.data == 0){
+        if (response.data == 0) {
             alert("Login Já Utilizado");
             return;
-        }else if(response.data == 2){
+        } else if (response.data == 2) {
             alert("Numero Já Utilizado");
             return;
         }
@@ -86,8 +87,9 @@ const Cadastro = ({navigation}) => {
     }
 
     return (
-        <ScrollView>
+        
             <View style={styles.tela}>
+                <ImageBackground source={image.imagem} style={styles.image} />
                 <Text style={styles.cadastroText}>Cadastro</Text>
                 <View style={styles.telaCadastro}>
                     <View style={styles.fieldView}>
@@ -123,27 +125,32 @@ const Cadastro = ({navigation}) => {
                             value={user.celular}
                         />
                     </View>
-                    <View style={styles.button}>
-                        <Button
-                            title="Cadastrar"
+                    <View style={styles.buttonView}>
+                        <TouchableOpacity
                             onPress={cadastrar}
-                        />
-                        <Button
-                            title="voltar"
+                        >
+                            <View style={styles.buttonCadastrar}>
+                                <Text style={styles.buttonText}>CADASTRAR</Text>
+                            </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity
                             onPress={() => {
-                                navigation.navigate('Login')}}
-                        />
+                                navigation.navigate('Login')
+                            }}
+                        >
+                            <View style={styles.buttonVoltar}>
+                                <Text style={styles.buttonText}>VOLTAR</Text>
+                            </View>
+                        </TouchableOpacity>
                     </View>
                 </View>
             </View>
-        </ScrollView>
     );
 }
 
 const styles = StyleSheet.create({
     tela: {
         flex: 1,
-        marginTop: 35,
         justifyContent: 'center',
     },
     telaCadastro: {
@@ -152,6 +159,7 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         padding: 20,
         marginHorizontal: 10,
+        backgroundColor: "#d4faff44",
     },
     fieldView: {
         alignItems: 'center',
@@ -160,13 +168,14 @@ const styles = StyleSheet.create({
     fieldInput: {
         borderWidth: 1,
         width: '80%',
-        borderColor: '#00000066',
+        borderColor: '#000066',
         marginTop: 4,
         paddingHorizontal: 2,
     },
-    button: {
+    buttonView: {
         flexDirection: 'row',
         width: '100%',
+        alignItems: 'center',
         justifyContent: 'space-between',
         paddingHorizontal: 45,
         marginVertical: 10
@@ -177,7 +186,39 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         fontWeight: 'bold',
         fontSize: 35,
-    }
+        marginBottom: 24
+    },
+    buttonVoltar: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#d4faff',
+        height: 36,
+        width: 76,
+        elevation: 2,
+        borderRadius: 10
+    },
+    buttonCadastrar: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#d4faff',
+        height: 36,
+        width: 110,
+        elevation: 2,
+        borderRadius: 10
+    },
+    buttonText: {
+        fontSize: 14,
+    },
+    image: {
+        flex: 1,
+        resizeMode: "cover",
+        justifyContent: "center",
+        position: "absolute",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0
+    },
 });
 
 export default Cadastro

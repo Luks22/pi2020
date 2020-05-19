@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Button, View, StyleSheet, Text, FlatList, ScrollView } from 'react-native'
+import { Button, View, StyleSheet, Text, FlatList, TouchableOpacity, ImageBackground } from 'react-native'
 import WifiManager from 'react-native-wifi-reborn';
 import { NetworkInfo } from "react-native-network-info";
 import AmigoItem from '../components/AmigoItem';
@@ -8,8 +8,9 @@ import GetLocation from 'react-native-get-location';
 import ListaAmigos from '../components/ListaAmigos';
 import calcDistance from '../utils/CalcDistance';
 import calcAndar from '../utils/calcAndar';
+import image from '../constants/Imagem';
 
-const TelaPrincipal = ({navigation}) => {
+const TelaPrincipal = ({ navigation }) => {
     const [usuario, setUsuario] = useState(navigation.getParam('usuario'));
     const [listaAmigos, setListaAmigos] = useState([]);
     const [roteadores, setRoteadores] = useState([]);
@@ -41,7 +42,7 @@ const TelaPrincipal = ({navigation}) => {
         setAmigosPerto([]);
     }
 
-    const amigosNasProximidades = async () => {              
+    const amigosNasProximidades = async () => {
         const response = await Api.get(`/amigos/${usuario.id}`);
         const user = await Api.get(`/usuario/${usuario.id}`);
 
@@ -55,10 +56,10 @@ const TelaPrincipal = ({navigation}) => {
         listaAmigos.map((amigo) => {
             if (usuario.roteadorBssid === amigo.roteadorBssid && usuario.localizacao >= amigo.localizacao) {
                 let distancia = Math.ceil(calcDistance(usuario.latitude, amigo.latitude, usuario.longitude, amigo.longitude) * 1000);
-                
+
                 let altura1 = Math.floor(usuario.altitude);
                 let altura2 = Math.floor(amigo.altitude);
-                
+
                 let andar = calcAndar(altura1, altura2);
 
                 amigoNaArea = { id: amigo.id, nome: amigo.nome, numero: amigo.celular.numero, altitude: andar, distancia: distancia };
@@ -214,38 +215,59 @@ const TelaPrincipal = ({navigation}) => {
 
     return (
         <View style={styles.tela}>
+            <ImageBackground source={image.imagem} style={styles.image} />
             <View style={styles.leftView}>
                 <View style={styles.buttonView} >
                     <View style={{ paddingLeft: 8, marginBottom: 8 }}>
-                        <Button title='Editar Perfil'
+                        <TouchableOpacity
                             onPress={() => {
-                                navigation.navigate('Editar', {usuario: usuario})}}
-                        />
+                                navigation.navigate('Editar', { usuario: usuario })
+                            }}
+                        >
+                            <View style={styles.buttons}>
+                                <Text style={styles.buttonText}>EDITAR PERFIL</Text>
+                            </View>
+                        </TouchableOpacity>
                     </View>
                     <View style={{ paddingLeft: 8 }}>
-                        <Button title='Sair'
+                        <TouchableOpacity
                             onPress={() => {
-                                navigation.navigate('Login')}}
-                        />
+                                navigation.navigate('Login')
+                            }}
+                        >
+                            <View style={styles.buttons}>
+                                <Text style={styles.buttonText}>SAIR</Text>
+                            </View>
+                        </TouchableOpacity>
                     </View>
                     <View style={{ paddingLeft: 8, marginTop: 35 }}>
-                        <Button
-                            title='Add Amigos'
+                        <TouchableOpacity
                             onPress={() => {
-                                navigation.navigate('AdicionarAmigo', {usuario: usuario})}}
-                        />
+                                navigation.navigate('AdicionarAmigo', { usuario: usuario })
+                            }}
+                        >
+                            <View style={styles.buttons}>
+                                <Text style={styles.buttonText}>ADD AMIGOS</Text>
+                            </View>
+                        </TouchableOpacity>
                     </View>
                     <View style={{ paddingLeft: 8, marginTop: 35 }}>
-                        <Button
-                            title='Listar Amigos'
+                        <TouchableOpacity
                             onPress={loadAmigos}
-                        />
+                        >
+                            <View style={styles.buttons}>
+                                <Text style={styles.buttonText}>Listar Amigos</Text>
+                            </View>
+                        </TouchableOpacity>
                     </View>
                     <View style={{ paddingLeft: 8, marginTop: 35 }}>
-                        <Button
-                            title='Amigos nas proximidades'
+                        <TouchableOpacity
                             onPress={amigosNasProximidades}
-                        />
+                        >
+                            <View style={styles.buttons1}>
+                                <Text style={styles.buttonText}>Amigos nas proximidades</Text>
+                            </View>
+                        </TouchableOpacity>
                     </View>
                 </View>
             </View>
@@ -259,7 +281,6 @@ const TelaPrincipal = ({navigation}) => {
 
 const styles = StyleSheet.create({
     tela: {
-        marginTop: 15,
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'center',
@@ -274,12 +295,45 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         paddingHorizontal: 6,
         borderRadius: 30,
+        backgroundColor: "#d4faff66",
     },
     leftView: {
         flex: 1,
         alignItems: 'center',
-    }
-
+        marginTop: 20
+    },
+    buttons: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#d4faff',
+        height: 40,
+        elevation: 3,
+        borderRadius: 10,
+        width: '100%'
+    },
+    buttons1: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#d4faff',
+        height: 60,
+        elevation: 3,
+        borderRadius: 10,
+        width: '100%'
+    },
+    buttonText: {
+        fontSize: 13,
+        textAlign: 'center'
+    },
+    image: {
+        flex: 1,
+        resizeMode: "cover",
+        justifyContent: "center",
+        position: "absolute",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0
+    },
 })
 
 export default TelaPrincipal

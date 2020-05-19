@@ -8,7 +8,7 @@ const AmigoItem = (props) => {
 
         <View style={styles.amigoItem} >
             <View style={styles.itemLista}>
-                <View>
+                <View style={styles.information}>
                     <View style={styles.textField}>
                         <Text style={styles.text}>Nome: </Text>
                         <Text>{props.nome}</Text>
@@ -45,20 +45,23 @@ const AmigoItem = (props) => {
 const styles = StyleSheet.create({
     amigoItem: {
         paddingHorizontal: 6,
+        
     },
     buttonView: {
-        justifyContent: 'space-around',
-        paddingLeft: 18,
-        paddingRight: 8
+        flex: 1,
+        alignItems: 'flex-end',
+        paddingRight: 4
     },
     itemLista: {
         flexDirection: 'row',
+        alignItems: 'flex-start',
         borderWidth: 1,
         borderColor: '#000066',
         marginVertical: 8,
         marginHorizontal: 6,
         paddingVertical: 12,
-        paddingLeft: 8
+        paddingLeft: 8,
+        backgroundColor: "#d4faff44",
     },
     textField: {
         flexDirection: 'row',
@@ -67,6 +70,12 @@ const styles = StyleSheet.create({
     text: {
         fontWeight: 'bold',
         fontSize: 15,
+    },
+    information: {
+        width: '60%',
+        maxWidth: '100%',
+        paddingRight: 15,
+        marginRight: 8,
     }
 })
 

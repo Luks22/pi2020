@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
-import { View, StyleSheet, Text, TextInput, Button, Alert, ScrollView } from 'react-native'
+import { View, StyleSheet, Text, TextInput, TouchableOpacity, Alert, ImageBackground } from 'react-native'
 import Api from '../services/Api';
+import image from '../constants/Imagem';
 
-const AdicionarAmigo = ({navigation}) => {
+const AdicionarAmigo = ({ navigation }) => {
 
     const [usuario, setUsuario] = useState(navigation.getParam('usuario'));
     const [numero, setNumero] = useState({ numeroAmigo: '' });
@@ -37,40 +38,40 @@ const AdicionarAmigo = ({navigation}) => {
 
         alert(`Numero ${numero.numeroAmigo} adicionado com sucesso!!!!`);
         setNumero({ numeroAmigo: '' });
-        navigation.push('TelaPrincipal', {usuario: usuario});
+        navigation.push('TelaPrincipal', { usuario: usuario });
     }
 
 
     return (
-        <ScrollView>
-            <View style={styles.tela}>
+        <View style={styles.tela}>
+            <ImageBackground source={image.imagem} style={styles.image} />
+            <View style={styles.addView}>
                 <Text style={styles.addText}>Adicionar Amigos</Text>
-                <View style={styles.addView}>
-                    <View>
-                        <Text>Digite o número do celular</Text>
-                    </View>
-                    <TextInput style={styles.addInput}
-                        value={numero.numeroAmigo}
-                        keyboardType="number-pad"
-                        onChangeText={capturarNumero}
-                    />
-                    <View style={styles.buttonView}>
-                        <Button
-                            title="Adicionar"
-                            onPress={addAmigo}
-                        />
-                        <Button
-                            title="Voltar"
-                            onPress={() => {
-                                setNumero({ numeroAmigo: '' });
-                                navigation.push('TelaPrincipal', {usuario: usuario})}
-                            }
-                        />
-                    </View>
+                <View>
+                    <Text>Digite o número do celular</Text>
+                </View>
+                <TextInput style={styles.addInput}
+                    value={numero.numeroAmigo}
+                    keyboardType="number-pad"
+                    onChangeText={capturarNumero}
+                />
+                <View style={styles.buttonView}>
+                    <TouchableOpacity onPress={addAmigo}>
+                        <View style={styles.buttons}>
+                            <Text style={styles.buttonText}>ADICIONAR</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => {
+                        setNumero({ numeroAmigo: '' });
+                        navigation.push('TelaPrincipal', { usuario: usuario })
+                    }}>
+                        <View style={styles.buttons}>
+                            <Text style={styles.buttonText}>VOLTAR</Text>
+                        </View>
+                    </TouchableOpacity>
                 </View>
             </View>
-
-        </ScrollView>
+        </View>
 
     )
 }
@@ -78,7 +79,6 @@ const AdicionarAmigo = ({navigation}) => {
 const styles = StyleSheet.create({
     tela: {
         flex: 1,
-        marginTop: 35,
         justifyContent: 'center',
         paddingHorizontal: 20
     },
@@ -88,6 +88,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         fontWeight: 'bold',
         fontSize: 35,
+        marginBottom: 24
     },
     addView: {
         flexDirection: 'column',
@@ -96,20 +97,44 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 20,
         padding: 12,
+        backgroundColor: "#d4faff44",
     },
     addInput: {
         width: '80%',
         borderWidth: 1,
         marginRight: 10,
-        paddingHorizontal: 2
+        paddingHorizontal: 2,
+        borderColor: '#000066',
     },
     buttonView: {
         flexDirection: 'row',
         width: '100%',
         justifyContent: 'space-between',
-        paddingHorizontal: 45,
+        paddingHorizontal: 36,
         marginVertical: 30
-    }
+    },
+    buttons: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#d4faff',
+        width: 100,
+        height: 38,
+        elevation: 2,
+        borderRadius: 10
+    },
+    buttonText: {
+        fontSize: 14,
+    },
+    image: {
+        flex: 1,
+        resizeMode: "cover",
+        justifyContent: "center",
+        position: "absolute",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0
+    },
 })
 
 export default AdicionarAmigo
