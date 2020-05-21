@@ -23,7 +23,7 @@ const AmigoItem = (props) => {
                     </View>
                     <View style={styles.textField}>
                         <Text style={styles.text}>Distância: </Text>
-                        <Text>{props.distancia} M</Text>
+                        <Text>{props.distancia}m</Text>
                     </View>
                 </View>
                 <View style={styles.buttonView}>

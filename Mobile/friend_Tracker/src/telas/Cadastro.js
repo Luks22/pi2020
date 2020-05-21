@@ -114,7 +114,6 @@ const Cadastro = ({ navigation }) => {
                             style={styles.fieldInput}
                             onChangeText={capturarSenha}
                             value={user.senha}
-                            secureTextEntry={true}
                         />
                     </View>
                     <View style={styles.fieldView}>
