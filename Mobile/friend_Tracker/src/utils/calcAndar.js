@@ -2,8 +2,6 @@ const calcAndar = (altitude1, altitude2) => {
 
     let altura = altitude1 - altitude2;
 
-    console.log(altura);
-
     if(altitude1 === altitude2 || altura > 0 && altura <= 2 || altura < 0 && altura >= -2){
         return "Mesmo Andar"
     }else if(altura <= -3 && altura > -6){
