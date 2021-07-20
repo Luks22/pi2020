@@ -12,7 +12,7 @@
   "dependencies": {
     "axios": "^0.19.2",
     "react": "16.11.0",
-    "react-native": "0.62.0",
+    "react-native": "0.62.3",
     "react-native-get-location": "^1.4.2",
     "react-native-wifi-reborn": "^3.1.1"
   },
